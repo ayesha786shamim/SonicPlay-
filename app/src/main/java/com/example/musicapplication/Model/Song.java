@@ -4,22 +4,23 @@ import java.io.Serializable;
 
 public class Song implements Serializable {
     private String title;
-    private String path;
+    private String artist;
     private String uri;
 
-    public Song(String title, String path) {
+    // Constructor
+    public Song(String title, String artist, String uri) {
         this.title = title;
-        this.path = path;
-        this.uri = path;
+        this.artist = artist;
+        this.uri = uri;//path of the song
     }
 
-    // Getter methods
+    // Getters
     public String getTitle() {
         return title;
     }
 
-    public String getPath() {
-        return path;
+    public String getArtist() {
+        return artist;
     }
 
     public String getUri() {

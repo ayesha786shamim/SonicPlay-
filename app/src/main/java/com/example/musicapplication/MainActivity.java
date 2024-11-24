@@ -1,10 +1,8 @@
 package com.example.musicapplication;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.example.musicapplication.View.Fragment.SongListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Load SongListFragment when the activity is created
         if (savedInstanceState == null) {
             loadFragment(new SongListFragment());
         }
