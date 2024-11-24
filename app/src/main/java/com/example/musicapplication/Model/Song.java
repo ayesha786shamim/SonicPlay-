@@ -1,25 +1,28 @@
 package com.example.musicapplication.Model;
 
-public class Song {
-    private String title;
-    private String artist;
-    private String filePath;
+import java.io.Serializable;
 
-    public Song(String title, String artist, String filePath) {
+public class Song implements Serializable {
+    private String title;
+    private String path;
+    private String uri;
+
+    public Song(String title, String path) {
         this.title = title;
-        this.artist = artist;
-        this.filePath = filePath;
+        this.path = path;
+        this.uri = path;
     }
 
+    // Getter methods
     public String getTitle() {
         return title;
     }
 
-    public String getArtist() {
-        return artist;
+    public String getPath() {
+        return path;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getUri() {
+        return uri;
     }
 }

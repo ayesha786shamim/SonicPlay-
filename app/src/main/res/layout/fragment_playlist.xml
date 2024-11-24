@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:text="Playlists"
         android:textColor="#FFFFFF"
-        android:layout_marginStart="300dp"
-        android:textSize="22sp"
+        android:layout_marginStart="290dp"
+        android:textSize="23sp"
         android:padding="14dp" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_now_playing.xml -->
+<!--Now Playing.xml-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:media3="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#121212">
+    android:background="#442A47">
+
+    <!-- Player View for ExoPlayer -->
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/player_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
 
     <ImageView
         android:id="@+id/album_art"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:src="@drawable/album_placeholder"
         android:scaleType="centerCrop" />
 
     <TextView
@@ -20,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="See You Again"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
 
@@ -29,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Wiz Khalifa"
         android:textColor="#BBBBBB"
         android:textSize="14sp" />
 
@@ -58,6 +62,14 @@
             android:layout_height="64dp"
             android:src="@drawable/icon_play"
             android:background="?android:attr/selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/btn_pause"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/icon_pause"
+            android:background="?android:attr/selectableItemBackground"
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/btn_next"
