@@ -18,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
 import com.example.musicapplication.View.Adapter.SongAdapter;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SongListFragment extends Fragment {
 
@@ -104,7 +107,7 @@ public class SongListFragment extends Fragment {
         return songs; // Return the list of songs
     }
 
-    // Handle click events on a song
+   /* // Handle click events on a song
     private void onSongClicked(Song song) {
         // Create a new fragment to show the song in a "Now Playing" screen
         NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
@@ -120,7 +123,27 @@ public class SongListFragment extends Fragment {
                 .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
                 .addToBackStack(null)
                 .commit();
+    }*/
+    // Handle click events on a song
+    private void onSongClicked(Song song, List<Song> songList) {
+        // Create a new fragment to show the song in a "Now Playing" screen
+        NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
+        Bundle bundle = new Bundle();
+
+        // Pass the clicked song and the song list to the NowPlayingFragment
+        bundle.putSerializable("songList", (Serializable) songList);  // Pass the entire song list
+        bundle.putSerializable("currentSong", song);                    // Pass the current song
+        bundle.putInt("currentSongIndex", songList.indexOf(song));     // Pass the current song index
+
+        nowPlayingFragment.setArguments(bundle);
+
+        // Replace the current fragment with the NowPlayingFragment
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
+                .addToBackStack(null)
+                .commit();
     }
+
 
     // Handle the result of the permission request
     @Override

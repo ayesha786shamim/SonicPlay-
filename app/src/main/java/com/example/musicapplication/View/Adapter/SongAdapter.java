@@ -15,7 +15,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private OnSongClickListener onSongClickListener;
 
     public interface OnSongClickListener {
-        void onClick(Song song);
+        void onClick(Song song, ArrayList<Song> songList);
     }
 
     public SongAdapter(ArrayList<Song> songs, OnSongClickListener onSongClickListener) {
@@ -35,7 +35,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         Song song = songs.get(position);
         holder.titleTextView.setText(song.getTitle());
         //holder.artistTextView.setText(song.getArtist());
-        holder.itemView.setOnClickListener(v -> onSongClickListener.onClick(song));
+
+        holder.itemView.setOnClickListener(v -> onSongClickListener.onClick(song,songs));
     }
 
     @Override
