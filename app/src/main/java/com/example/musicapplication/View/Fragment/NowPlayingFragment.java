@@ -21,7 +21,7 @@ import java.util.List;
 public class NowPlayingFragment extends Fragment {
 
     private MediaPlayerController mediaPlayerController;
-    private List<Song> songList; // Playlist
+    private List<Song> songList;
     private int currentSongIndex;
     private TextView songTitle, songArtist;
     private SeekBar songSeekBar;

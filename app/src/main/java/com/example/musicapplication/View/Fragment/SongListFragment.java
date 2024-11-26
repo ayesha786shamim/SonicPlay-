@@ -107,23 +107,6 @@ public class SongListFragment extends Fragment {
         return songs; // Return the list of songs
     }
 
-   /* // Handle click events on a song
-    private void onSongClicked(Song song) {
-        // Create a new fragment to show the song in a "Now Playing" screen
-        NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
-        Bundle bundle = new Bundle();
-
-        // Pass the clicked song to the NowPlayingFragment with the correct key
-        bundle.putSerializable("currentSong", song);
-
-        nowPlayingFragment.setArguments(bundle);
-
-        // Replace the current fragment with the NowPlayingFragment
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
-                .addToBackStack(null)
-                .commit();
-    }*/
     // Handle click events on a song
     private void onSongClicked(Song song, List<Song> songList) {
         // Create a new fragment to show the song in a "Now Playing" screen
@@ -131,10 +114,9 @@ public class SongListFragment extends Fragment {
         Bundle bundle = new Bundle();
 
         // Pass the clicked song and the song list to the NowPlayingFragment
-        bundle.putSerializable("songList", (Serializable) songList);  // Pass the entire song list
-        bundle.putSerializable("currentSong", song);                    // Pass the current song
-        bundle.putInt("currentSongIndex", songList.indexOf(song));     // Pass the current song index
-
+        bundle.putSerializable("songList", (Serializable) songList);
+        bundle.putSerializable("currentSong", song);
+        bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
         // Replace the current fragment with the NowPlayingFragment
@@ -149,12 +131,10 @@ public class SongListFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_PERMISSION) {
-            // If permission is granted, load the songs and refresh the adapter
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 songList = getSongsFromDevice();
                 songAdapter.notifyDataSetChanged(); // Notify the adapter of data changes
             } else {
-                // If permission is denied, show a toast message
                 Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
