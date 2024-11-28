@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="#442A47"
     android:gravity="start"
-    android:orientation="vertical"
-    android:padding="0dp">
+    android:orientation="vertical">
 
     <!-- Button for "Songs" -->
     <Button

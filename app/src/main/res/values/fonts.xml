@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Regular Font -->
+    <font-family name="roboto_regular">
+        <font app:font="@font/roboto_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Bold Font -->
+    <font-family name="roboto_bold">
+        <font app:font="@font/roboto_bold" app:fontStyle="normal" app:fontWeight="700"/>
+    </font-family>
+
+    <!-- Pacifico Font (Handwritten, casual) -->
+    <font-family name="pacifico_regular">
+        <font app:font="@font/pacifico_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Monoton Font  (Futuristic, bold) -->
+    <font-family name="monoton_regular">
+        <font app:font="@font/monoton_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Bebas Neue Font  (Bold, clean) -->
+    <font-family name="bebas_neue">
+        <font app:font="@font/bebas_neue" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Lobster Font  (Bold script) -->
+    <font-family name="lobster_regular">
+        <font app:font="@font/lobster_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Righteous Font  (Playful, rounded) -->
+    <font-family name="righteous_regular">
+        <font app:font="@font/righteous_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Rock Salt Font (Handwritten, rough) -->
+    <font-family name="rock_salt_regular">
+        <font app:font="@font/rock_salt_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Anton Font (Strong, condensed) -->
+    <font-family name="anton_regular">
+        <font app:font="@font/anton_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Oswald Font(Clean, condensed) -->
+    <font-family name="oswald_regular">
+        <font app:font="@font/oswald_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+
+    <!-- Courgette Font (Soft, cursive) -->
+    <font-family name="courgette_regular">
+        <font app:font="@font/courgette_regular" app:fontStyle="normal" app:fontWeight="400"/>
+    </font-family>
+</resources>

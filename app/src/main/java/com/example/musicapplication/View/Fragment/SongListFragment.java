@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class SongListFragment extends Fragment {
     }
 
     // Method to fetch songs from the device
-    private ArrayList<Song> getSongsFromDevice() {
+    public ArrayList<Song> getSongsFromDevice() {
         ArrayList<Song> songs = new ArrayList<>();
 
         // URI to query external audio files
@@ -95,6 +96,9 @@ public class SongListFragment extends Fragment {
                 long id = cursor.getLong(idIndex);
                 String title = cursor.getString(titleIndex);
                 String artist = cursor.getString(artistIndex);
+
+                // Debug log to check if artist data is correct
+                Log.d("SongList", "Title: " + title + ", Artist: " + artist);
 
                 // Build the URI for the song
                 Uri contentUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));

@@ -14,8 +14,8 @@ public class MediaPlayerController {
 
     private MediaPlayer mediaPlayer;
     private Context context;
-    private List<Song> songList;
-    private int currentSongIndex;
+    private List<Song> songList;  // List of all songs
+    private int currentSongIndex;  // Index of the currently playing song
     private SeekBar songSeekBar;
     private boolean isPlaying = false;
     private Handler seekBarHandler;

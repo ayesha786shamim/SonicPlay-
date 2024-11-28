@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -20,8 +19,8 @@
         android:text="Artists"
         android:textColor="#FFFFFF"
         android:textSize="23sp"
-        android:padding="14dp"
-        android:layout_marginStart="300dp" />
+        android:padding="10dp"
+        android:layout_marginStart="250dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/artists_recycler_view"
@@ -29,5 +28,13 @@
         android:layout_height="match_parent"
         android:layout_below="@id/artists_title"
         android:layout_marginStart="80dp"
+        android:padding="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/songs_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/artists_recycler_view"
+        android:layout_marginStart="8dp"
         android:padding="8dp" />
 </RelativeLayout>

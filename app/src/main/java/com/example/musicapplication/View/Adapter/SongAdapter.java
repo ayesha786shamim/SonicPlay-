@@ -34,7 +34,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void onBindViewHolder(SongViewHolder holder, int position) {
         Song song = songs.get(position);
         holder.titleTextView.setText(song.getTitle());
-        //holder.artistTextView.setText(song.getArtist());
 
         holder.itemView.setOnClickListener(v -> onSongClickListener.onClick(song,songs));
     }
@@ -44,14 +43,19 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         return songs.size();
     }
 
+    // Method to update the song list in the adapter
+    public void updateSongs(ArrayList<Song> newSongs) {
+        this.songs.clear();  // Clear the current list
+        this.songs.addAll(newSongs);  // Add the new list of songs
+        notifyDataSetChanged();  // Notify the adapter that the data has changed
+    }
+
     public static class SongViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
-        //public TextView artistTextView;
 
         public SongViewHolder(View view) {
             super(view);
             titleTextView = view.findViewById(R.id.song_title);
-            // artistTextView = view.findViewById(R.id.song_artist);
         }
     }
 }
