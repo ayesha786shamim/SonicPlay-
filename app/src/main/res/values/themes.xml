@@ -4,7 +4,7 @@
     <style name="Theme.MusicApplication" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="splash_icon">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
 </resources>

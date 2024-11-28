@@ -11,7 +11,7 @@ public class Song implements Serializable {
     public Song(String title, String artist, String uri) {
         this.title = title;
         this.artist = artist;
-        this.uri = uri;//path of the song
+        this.uri = uri;  //path of the song
     }
 
     // Getters
