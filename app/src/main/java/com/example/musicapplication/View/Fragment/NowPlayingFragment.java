@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.musicapplication.Controller.MediaPlayerController;
+import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
 
@@ -144,6 +145,15 @@ public class NowPlayingFragment extends Fragment {
         super.onDestroy();
         if (mediaPlayerController != null) {
             mediaPlayerController.release();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setNavigationBarVisibility(false); // HIDE navigation bar
         }
     }
 }

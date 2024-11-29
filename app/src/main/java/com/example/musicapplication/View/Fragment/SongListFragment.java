@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
 import com.example.musicapplication.View.Adapter.SongAdapter;
@@ -123,6 +125,8 @@ public class SongListFragment extends Fragment {
         bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
+       // ((MainActivity) getActivity()).loadFragment(nowPlayingFragment, false);
+
         // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
@@ -141,6 +145,14 @@ public class SongListFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setNavigationBarVisibility(true); // Show navigation bar
         }
     }
 }

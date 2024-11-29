@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
 import com.example.musicapplication.View.Adapter.ArtistAdapter;
@@ -124,4 +125,14 @@ public class ArtistFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setNavigationBarVisibility(true); // Show navigation bar
+        }
+    }
+
 }
