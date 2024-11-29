@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (currentFragment instanceof NowPlayingFragment) {
-            loadFragment(new SongListFragment());// Switch back to SongListFragment
+            loadFragment(new SongListFragment()); // Switch back to SongListFragment
             setNavigationBarVisibility(true);
         } else {
             super.onBackPressed();
