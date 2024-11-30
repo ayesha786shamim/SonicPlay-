@@ -114,7 +114,7 @@ public class SongListFragment extends Fragment {
     }
 
     // Handle click events on a song
-    private void onSongClicked(Song song, List<Song> songList) {
+    public void onSongClicked(Song song, List<Song> songList) {
         // Create a new fragment to show the song in a "Now Playing" screen
         NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
         Bundle bundle = new Bundle();
@@ -125,7 +125,6 @@ public class SongListFragment extends Fragment {
         bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
-       // ((MainActivity) getActivity()).loadFragment(nowPlayingFragment, false);
 
         // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -145,14 +144,6 @@ public class SongListFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getActivity() instanceof MainActivity) {
-            MainActivity activity = (MainActivity) getActivity();
-            activity.setNavigationBarVisibility(true); // Show navigation bar
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.musicapplication.View.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void updateSongs(ArrayList<Song> newSongs) {
         this.songs.clear();  // Clear the current list
         this.songs.addAll(newSongs);  // Add the new list of songs
+        Log.d("SongAdapter", "Updating songs with " + newSongs.size() + " items.");
         notifyDataSetChanged();  // Notify the adapter that the data has changed
     }
 

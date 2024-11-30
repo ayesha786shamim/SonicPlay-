@@ -27,14 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/artists_title"
-        android:layout_marginStart="80dp"
-        android:padding="8dp" />
+        android:layout_marginStart="80dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/artists_recycler_view"
-        android:layout_marginStart="8dp"
-        android:padding="8dp" />
+        android:layout_below="@id/artists_title"
+        android:layout_marginStart="80dp" />
 </RelativeLayout>

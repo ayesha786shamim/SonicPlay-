@@ -1,138 +1,190 @@
 package com.example.musicapplication.View.Fragment;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
 import com.example.musicapplication.View.Adapter.ArtistAdapter;
 import com.example.musicapplication.View.Adapter.SongAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ArtistFragment extends Fragment {
-
     private RecyclerView artistsRecyclerView;
     private RecyclerView songsRecyclerView;
-    private ArtistAdapter artistAdapter;
     private SongAdapter songAdapter;
-    private List<Song> allSongs;
-    private List<String> artists;
-    private SongListFragment songListFragment;
+    private ArtistAdapter artistAdapter;
+    private ArrayList<Song> allSongs;
+    private ArrayList<String> artists;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragement_artist, container, false);
 
-        // Initialize RecyclerView for artists
         artistsRecyclerView = view.findViewById(R.id.artists_recycler_view);
-        artistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Initialize RecyclerView for songs
         songsRecyclerView = view.findViewById(R.id.songs_recycler_view);
+
+        Log.d("ArtistFragment", "Initializing RecyclerViews");
+
+        // Set up layout managers
+        artistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Fetch songs from SongListFragment
-        songListFragment = (SongListFragment) getActivity().getSupportFragmentManager()
-                .findFragmentByTag("SongListFragment"); // Ensure you set the correct tag or pass instance
-        allSongs = fetchSongsFromSongListFragment();
+        // Initially, show only the artist RecyclerView
+        songsRecyclerView.setVisibility(View.GONE);
 
-        // Extract unique artists from songs
+        // Fetch all songs
+        allSongs = getSongsFromDevice();
+        Log.d("ArtistFragment", "Fetched " + allSongs.size() + " songs from device");
+
+        // Get unique artists from songs
         artists = getArtistsFromSongs(allSongs);
+        Log.d("ArtistFragment", "Extracted " + artists.size() + " unique artists");
 
-        // Set up the artist adapter
+        // Initialize ArtistAdapter
         artistAdapter = new ArtistAdapter(artists, artistName -> {
-            // Filter songs by artist when an artist is clicked
-            List<Song> artistSongs = filterSongsByArtist(artistName);
-            songAdapter.updateSongs(new ArrayList<>(artistSongs)); // Update the song list based on the selected artist
-        });
+            Log.d("ArtistFragment", "Artist selected: " + artistName);
 
+            // Hide the artist RecyclerView
+            artistsRecyclerView.setVisibility(View.GONE);
+
+            // Show the song RecyclerView
+            songsRecyclerView.setVisibility(View.VISIBLE);
+
+            // Filter songs by the selected artist
+            List<Song> filteredSongs = filterSongsByArtist(artistName);
+            Log.d("ArtistFragment", "Filtered " + filteredSongs.size() + " songs for artist: " + artistName);
+
+            // Update the song adapter with the filtered songs
+            songAdapter.updateSongs(new ArrayList<>(filteredSongs));
+        });
         artistsRecyclerView.setAdapter(artistAdapter);
 
-        // Set up the song adapter
-        songAdapter = new SongAdapter(new ArrayList<>(allSongs), (song, songList) -> {
-            // Handle song click (e.g., play the song)
-            showNowPlayingFragment(song);
+        // Initialize SongAdapter
+        songAdapter = new SongAdapter(new ArrayList<>(), (song, songList) -> {
+            // Handle song click directly in ArtistFragment
+            onSongClicked(song, songList);
         });
 
+        // Set the adapter to the RecyclerView
         songsRecyclerView.setAdapter(songAdapter);
+
+        Log.d("ArtistFragment", "ArtistFragment view created successfully");
 
         return view;
     }
 
-    // Fetch songs from SongListFragment instance
-    private ArrayList<Song> fetchSongsFromSongListFragment() {
-        if (songListFragment != null) {
-            return songListFragment.getSongsFromDevice();
+    // Method to fetch songs from the device
+    public ArrayList<Song> getSongsFromDevice() {
+        ArrayList<Song> songs = new ArrayList<>();
+        Log.d("ArtistFragment", "Fetching songs from device");
+
+        // URI to query external audio files
+        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
+        // Columns to retrieve for each song
+        String[] projection = {
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.ARTIST
+        };
+
+        // Query selection to filter music files and include only .mp3 files
+        String selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0 AND " +
+                MediaStore.Audio.Media.MIME_TYPE + "=?";
+        String[] selectionArgs = {"audio/mpeg"};
+
+        // Query the MediaStore to get audio files
+        Cursor cursor = getContext().getContentResolver().query(
+                musicUri,
+                projection,
+                selection,
+                selectionArgs,
+                MediaStore.Audio.Media.TITLE + " ASC"
+        );
+
+        if (cursor != null) {
+            int idIndex = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int titleIndex = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int artistIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+
+            while (cursor.moveToNext()) {
+                long id = cursor.getLong(idIndex);
+                String title = cursor.getString(titleIndex);
+                String artist = cursor.getString(artistIndex);
+
+                Uri contentUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
+                songs.add(new Song(title, artist, contentUri.toString()));
+
+                Log.d("ArtistFragment", "Added song: " + title + " by " + artist);
+            }
+            cursor.close();
         } else {
-            // Handle the case when songListFragment is null, show a message or return an empty list
-            return new ArrayList<>();
+            Log.d("ArtistFragment", "Cursor is null, no songs fetched");
         }
+
+        return songs;
     }
 
-    // Get a list of unique artists from the list of songs
-    private List<String> getArtistsFromSongs(List<Song> songs) {
-        List<String> artists = songs.stream()
-                .map(Song::getArtist)
-                .filter(artist -> artist != null && !artist.isEmpty()) // Ensure no null/empty artists
-                .distinct()
-                .collect(Collectors.toList());
-
-        // Debug log to check the extracted artist names
-        Log.d("ArtistFragment", "Extracted Artists: " + artists);
-
+    // Method to get a list of artists
+    private ArrayList<String> getArtistsFromSongs(ArrayList<Song> songs) {
+        ArrayList<String> artists = new ArrayList<>();
+        for (Song song : songs) {
+            if (!artists.contains(song.getArtist())) {
+                artists.add(song.getArtist());
+                Log.d("ArtistFragment", "Found artist: " + song.getArtist());
+            }
+        }
         return artists;
     }
 
-    // Filter songs by artist
+    // Filter songs based on the artist's name
     private List<Song> filterSongsByArtist(String artistName) {
         List<Song> filteredSongs = new ArrayList<>();
+        Log.d("ArtistFragment", "Filtering songs for artist: " + artistName);
         for (Song song : allSongs) {
-            if (song.getArtist().equals(artistName)) {
+            if (song.getArtist().equalsIgnoreCase(artistName)) {
                 filteredSongs.add(song);
+                Log.d("ArtistFragment", "Added song: " + song.getTitle() + " to filtered list");
             }
         }
         return filteredSongs;
     }
 
-    // Optionally, implement a method to pass data to the NowPlayingFragment
-    private void showNowPlayingFragment(Song selectedSong) {
-        // Create NowPlayingFragment and pass the selected song to it
+    // Handle click events on a song
+    public void onSongClicked(Song song, List<Song> songList) {
+        // Create a new fragment to show the song in a "Now Playing" screen
         NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("currentSong", selectedSong);
 
-        // Pass the list of songs by the artist
-        List<Song> artistSongs = filterSongsByArtist(selectedSong.getArtist());
-        bundle.putSerializable("artistSongs", new ArrayList<>(artistSongs));  // Ensure it's serializable
-
+        // Pass the clicked song and the song list to the NowPlayingFragment
+        bundle.putSerializable("songList", (Serializable) songList);
+        bundle.putSerializable("currentSong", song);
+        bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
-        // Begin the fragment transaction to replace the current fragment with NowPlayingFragment
+        // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, nowPlayingFragment) // Ensure fragment_container exists in the parent layout
+                .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
                 .addToBackStack(null)
                 .commit();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getActivity() instanceof MainActivity) {
-            MainActivity activity = (MainActivity) getActivity();
-            activity.setNavigationBarVisibility(true); // Show navigation bar
-        }
-    }
-
 }
+
+
