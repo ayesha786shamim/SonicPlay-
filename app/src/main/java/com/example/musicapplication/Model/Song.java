@@ -6,11 +6,13 @@ public class Song implements Serializable {
     private String title;
     private String artist;
     private String uri;
+    private String album;
 
     // Constructor
-    public Song(String title, String artist, String uri) {
+    public Song(String title, String artist,String album, String uri) {
         this.title = title;
         this.artist = artist;
+        this.album = album;
         this.uri = uri;  //path of the song
     }
 
@@ -25,5 +27,9 @@ public class Song implements Serializable {
 
     public String getUri() {
         return uri;
+    }
+
+    public String getAlbum() {
+        return album;
     }
 }

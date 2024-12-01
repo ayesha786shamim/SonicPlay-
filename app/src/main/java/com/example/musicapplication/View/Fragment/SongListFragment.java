@@ -70,7 +70,8 @@ public class SongListFragment extends Fragment {
         String[] projection = {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ARTIST
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.ALBUM
         };
 
         // Query selection to filter music files and include only .mp3 files
@@ -92,12 +93,15 @@ public class SongListFragment extends Fragment {
             int idIndex = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int titleIndex = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int artistIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int albumIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
 
             // Loop through the results and create Song objects
             while (cursor.moveToNext()) {
                 long id = cursor.getLong(idIndex);
                 String title = cursor.getString(titleIndex);
                 String artist = cursor.getString(artistIndex);
+                String album = cursor.getString(albumIndex);
+
 
                 // Debug log to check if artist data is correct
                 Log.d("SongList", "Title: " + title + ", Artist: " + artist);
@@ -106,7 +110,7 @@ public class SongListFragment extends Fragment {
                 Uri contentUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
 
                 // Add the song to the list
-                songs.add(new Song(title, artist, contentUri.toString()));
+                songs.add(new Song(title, artist, album, contentUri.toString()));
             }
             cursor.close();
         }
