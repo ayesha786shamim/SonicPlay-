@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SplashTheme">
+        <attr name="splashBackground" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomTheme">
+        <attr name="customWindowBackground" format="color"/>
+    </declare-styleable>
+</resources>
