@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#442A47">
+    android:background="?attr/customWindowBackground">
     <include
         android:id="@+id/navigation_bar"
         layout="@layout/navigation_menu"
@@ -19,7 +19,7 @@
         android:layout_marginStart="250dp"
         android:padding="11dp"
         android:text="Songs"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/android:textColor"
         android:textSize="24sp"
         android:visibility="visible" />
 

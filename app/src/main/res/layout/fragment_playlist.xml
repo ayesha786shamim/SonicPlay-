@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#442A47">
+    android:background="?attr/customWindowBackground">
 
     <include
         android:id="@+id/navigation_bar"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Playlists"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/android:textColor"
         android:layout_marginStart="290dp"
         android:textSize="23sp"
         android:padding="14dp" />

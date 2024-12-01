@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="Theme.MusicApplication" parent="Theme.AppCompat.Light.NoActionBar" />
 
-    <style name="splash_icon">
-        <item name="android:windowBackground">@drawable/splashscreen</item>
-    </style>
 
 </resources>
+

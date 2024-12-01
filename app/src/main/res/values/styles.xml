@@ -8,7 +8,7 @@
 
     <style name="Divider.Horizontal" parent="Divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item> // You can change thickness here.
+        <item name="android:layout_height">2dp</item> // You can change thickness here.
 
     </style>
 
@@ -18,6 +18,12 @@
     </style>
 
     <style name="AppTheme" parent="@style/Theme.MusicApplication">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
+        <item name="customWindowBackground">@color/Pearl_Blue</item>
+        <item name="android:textColor">@color/Grey </item>
     </style>
+
+
+
 </resources>

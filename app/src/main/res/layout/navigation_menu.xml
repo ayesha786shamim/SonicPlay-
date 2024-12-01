@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#442A47"
+    android:background="?attr/customWindowBackground"
     android:gravity="start">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="#442A47"
+        android:background="?attr/customWindowBackground"
         android:gravity="start"
         android:orientation="vertical">
         <!-- Button for "Songs" -->
@@ -22,7 +22,7 @@
             android:gravity="center"
             android:rotation="270"
             android:text="Songs"
-            android:textColor="@android:color/white" />
+            android:textColor="?attr/android:textColor" />
 
         <!-- Button for "Playlists" -->
         <Button
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:rotation="270"
             android:text="Playlists"
-            android:textColor="@android:color/white" />
+            android:textColor="?attr/android:textColor" />
 
         <!-- Button for "Albums" -->
         <Button
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:rotation="270"
             android:text="Albums"
-            android:textColor="@android:color/white" />
+            android:textColor="?attr/android:textColor" />
 
         <!-- Button for "Artists" -->
         <Button
@@ -59,7 +59,7 @@
             android:gravity="center"
             android:rotation="270"
             android:text="Artists"
-            android:textColor="@android:color/white" />
+            android:textColor="?attr/android:textColor" />
     </LinearLayout>
 
     <View style="@style/Divider.Vertical"/>

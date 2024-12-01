@@ -16,8 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <!-- Navigation bar -->
     <include
         android:id="@+id/navigation_bar"
