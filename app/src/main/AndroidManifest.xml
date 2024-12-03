@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/music_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.MorningDew"
         tools:targetApi="31">
 
 
@@ -23,7 +23,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.MorningDew"
             android:label="Bhangra Beats"
             android:requestLegacyExternalStorage="true">
             <intent-filter>

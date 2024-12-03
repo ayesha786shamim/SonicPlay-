@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/customWindowBackground"
+    android:padding="20dp">
+
+    <RadioGroup
+        android:id="@+id/theme_radio_group"
+        android:layout_width="202dp"
+        android:layout_height="160dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_MorningDew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="?attr/android:textColor"
+            android:text="Morning Dew" />
+
+        <RadioButton
+            android:id="@+id/radio_VelvetNoir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="?attr/android:textColor"
+            android:text="Velvet Noir" />
+
+        <RadioButton
+            android:id="@+id/radio_CrimsonEclipse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="?attr/android:textColor"
+            android:text="Crimson Eclipse" />
+
+        <RadioButton
+            android:id="@+id/radio_StoneSlate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="?attr/android:textColor"
+            android:text="Stone Slate" />
+
+        <RadioButton
+            android:id="@+id/radio_CedarWood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="?attr/android:textColor"
+            android:text="Cedar Wood" />
+
+    </RadioGroup>
+
+</LinearLayout>

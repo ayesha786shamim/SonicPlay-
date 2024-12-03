@@ -11,12 +11,24 @@
         android:background="?attr/customWindowBackground"
         android:gravity="start"
         android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/theme_selection"
+            android:layout_width="50dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:drawable/ic_menu_manage"
+            android:contentDescription="Change Theme"
+            android:src="?attr/actionBarItemBackground" />
+
         <!-- Button for "Songs" -->
         <Button
             android:id="@+id/menu_songs"
             android:layout_width="70dp"
             android:layout_height="150dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="0dp"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
@@ -65,4 +77,10 @@
     <View style="@style/Divider.Vertical"/>
 
 </LinearLayout>
+
+
+
+
+
+
 
