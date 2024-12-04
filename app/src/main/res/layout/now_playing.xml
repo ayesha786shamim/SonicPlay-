@@ -3,32 +3,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="?attr/customWindowBackground"
-    android:fontFamily="?android:attr/fontFamily" >
+    android:fontFamily="?android:attr/fontFamily">
 
-    <!-- Song Title and Artist -->
+    <!-- Album Art -->
+    <ImageView
+        android:id="@+id/song_image"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_music_note_24" />
+
+    <!-- Song Title -->
     <TextView
         android:id="@+id/song_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:padding="16dp"
         android:textColor="?attr/android:textColor"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:gravity="center" />
 
+    <!-- Song Artist -->
     <TextView
         android:id="@+id/song_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginTop="5dp"
         android:textColor="?attr/android:textColor"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="center" />
 
     <!-- SeekBar for Playback Progress -->
     <SeekBar
         android:id="@+id/song_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_margin="16dp" />
 
     <!-- Controls for Playback (Play, Pause, Previous, Next) -->
@@ -36,27 +53,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_previous"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/icon_previous"
+            android:layout_marginRight="25dp"
             android:background="?android:attr/selectableItemBackground" />
 
         <ImageButton
             android:id="@+id/btn_play_pause"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:src="@drawable/icon_play"
             android:background="?android:attr/selectableItemBackground" />
 
         <ImageButton
             android:id="@+id/btn_next"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/icon_next"
+            android:layout_marginLeft="25dp"
             android:background="?android:attr/selectableItemBackground" />
     </LinearLayout>
 </LinearLayout>

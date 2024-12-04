@@ -83,6 +83,8 @@ dependencies {
     // Kotlin
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
 
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation ("com.google.android.material:material:1.8.0")
 
 }

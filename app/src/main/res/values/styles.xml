@@ -17,6 +17,7 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+
     <style name="AppTheme.MorningDew" parent="@style/Theme.MusicApplication">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>

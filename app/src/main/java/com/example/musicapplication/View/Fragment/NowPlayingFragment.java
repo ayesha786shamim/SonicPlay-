@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
@@ -27,6 +29,7 @@ public class NowPlayingFragment extends Fragment {
     private TextView songTitle, songArtist;
     private SeekBar songSeekBar;
     private ImageButton playPauseButton, nextButton, previousButton;
+    private ImageView songImage;
     private boolean isPlaying = false;
     private Song currentSong;
 
@@ -75,12 +78,24 @@ public class NowPlayingFragment extends Fragment {
         playPauseButton = view.findViewById(R.id.btn_play_pause);
         nextButton = view.findViewById(R.id.btn_next);
         previousButton = view.findViewById(R.id.btn_previous);
+        songImage = view.findViewById(R.id.song_image);
     }
 
     private void updateSongDetails() {
         if (currentSong != null) {
             songTitle.setText(currentSong.getTitle());
             songArtist.setText(currentSong.getArtist());
+
+            // Load the song image using Glide
+            if (currentSong.getAlbumArtUri() != null) {
+                Glide.with(requireContext())
+                        .load(currentSong.getAlbumArtUri())
+                        .placeholder(R.drawable.baseline_music_note_24)
+                        .into(songImage);
+            } else {
+                // Set a default image if no URI is available
+                songImage.setImageResource(R.drawable.baseline_music_note_24);
+            }
         }
     }
 

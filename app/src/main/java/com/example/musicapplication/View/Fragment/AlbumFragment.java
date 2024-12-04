@@ -1,5 +1,6 @@
 package com.example.musicapplication.View.Fragment;
 
+import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -93,7 +94,6 @@ public class AlbumFragment extends Fragment {
     // Method to fetch songs from the device
     public ArrayList<Song> getSongsFromDevice() {
         ArrayList<Song> songs = new ArrayList<>();
-        Log.d("AlbumFragment", "Fetching songs from device");
 
         // URI to query external audio files
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -103,7 +103,8 @@ public class AlbumFragment extends Fragment {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM
+                MediaStore.Audio.Media.ALBUM,
+                MediaStore.Audio.Media.ALBUM_ID // Add ALBUM_ID to retrieve album art
         };
 
         // Query selection to filter music files and include only .mp3 files
@@ -117,33 +118,39 @@ public class AlbumFragment extends Fragment {
                 projection,
                 selection,
                 selectionArgs,
-                MediaStore.Audio.Media.TITLE + " ASC"
+                MediaStore.Audio.Media.TITLE + " ASC" // Order by song title
         );
 
+        // If the cursor contains results, process them
         if (cursor != null) {
             int idIndex = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int titleIndex = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int artistIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int albumIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            int albumIdIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID); // Get album ID
 
+            // Loop through the results and create Song objects
             while (cursor.moveToNext()) {
                 long id = cursor.getLong(idIndex);
                 String title = cursor.getString(titleIndex);
                 String artist = cursor.getString(artistIndex);
                 String album = cursor.getString(albumIndex);
+                long albumId = cursor.getLong(albumIdIndex); // Retrieve the album ID
 
+                // Build the URI for the song
                 Uri contentUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
-                songs.add(new Song(title, artist, album, contentUri.toString()));
 
-                Log.d("AlbumFragment", "Added song: " + title + " by " + album);
+                // Build the URI for the album art
+                Uri albumArtUri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
+
+                // Add the song with the album art URI to the list
+                songs.add(new Song(title, artist, album, contentUri.toString(), albumArtUri.toString())); // Pass album art URI
             }
             cursor.close();
-        } else {
-            Log.d("AlbumFragment", "Cursor is null, no songs fetched");
         }
-
-        return songs;
+        return songs; // Return the list of songs
     }
+
 
     // Method to get a list of albums
     private ArrayList<String> getAlbumsFromSongs(ArrayList<Song> songs) {

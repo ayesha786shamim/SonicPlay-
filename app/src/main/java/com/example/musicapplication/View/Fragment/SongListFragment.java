@@ -1,6 +1,7 @@
 package com.example.musicapplication.View.Fragment;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -71,7 +72,8 @@ public class SongListFragment extends Fragment {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM
+                MediaStore.Audio.Media.ALBUM,
+                MediaStore.Audio.Media.ALBUM_ID
         };
 
         // Query selection to filter music files and include only .mp3 files
@@ -94,6 +96,7 @@ public class SongListFragment extends Fragment {
             int titleIndex = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int artistIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int albumIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            int albumIdIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
 
             // Loop through the results and create Song objects
             while (cursor.moveToNext()) {
@@ -101,6 +104,7 @@ public class SongListFragment extends Fragment {
                 String title = cursor.getString(titleIndex);
                 String artist = cursor.getString(artistIndex);
                 String album = cursor.getString(albumIndex);
+                long albumId = cursor.getLong(albumIdIndex);
 
 
                 // Debug log to check if artist data is correct
@@ -109,8 +113,11 @@ public class SongListFragment extends Fragment {
                 // Build the URI for the song
                 Uri contentUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, String.valueOf(id));
 
+                // Build the URI for the album art
+                Uri albumArtUri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
+
                 // Add the song to the list
-                songs.add(new Song(title, artist, album, contentUri.toString()));
+                songs.add(new Song(title, artist, album, contentUri.toString(),albumArtUri.toString()));
             }
             cursor.close();
         }
