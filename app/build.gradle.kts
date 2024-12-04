@@ -80,11 +80,8 @@ dependencies {
 
     // Java language implementation
     implementation("androidx.fragment:fragment:$fragment_version")
-    // Kotlin
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
-
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
     implementation ("com.google.android.material:material:1.8.0")
+    implementation ("com.google.code.gson:gson:2.11.0")
 
 }
