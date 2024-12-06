@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.musicapplication.View.Fragment.SongListFragment;
-//import com.example.musicapplication.View.Fragment.PlaylistListFragment;
+import com.example.musicapplication.View.Fragment.PlaylistFragment;
 import com.example.musicapplication.View.Fragment.AlbumFragment;
 import com.example.musicapplication.View.Fragment.ArtistFragment;
 import com.example.musicapplication.View.Fragment.NowPlayingFragment;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set click listeners for each button
         menuSongs.setOnClickListener(v -> loadFragment(new SongListFragment()));
-        //menuPlaylists.setOnClickListener(v -> loadFragment(new PlaylistListFragment()));
+        menuPlaylists.setOnClickListener(v -> loadFragment(new PlaylistFragment()));
         menuAlbums.setOnClickListener(v -> loadFragment(new AlbumFragment()));
         menuArtists.setOnClickListener(v -> loadFragment(new ArtistFragment()));
 

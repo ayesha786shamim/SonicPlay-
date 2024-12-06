@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:text="Playlists"
         android:textColor="?attr/android:textColor"
-        android:layout_marginStart="290dp"
+        android:layout_marginStart="250dp"
         android:textSize="23sp"
-        android:padding="14dp" />
+        android:padding="11dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playlists_recycler_view"
@@ -30,4 +30,11 @@
         android:layout_below="@id/playlists_title"
         android:layout_marginStart="80dp"
         android:padding="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/songs_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/playlists_title"
+        android:layout_marginStart="80dp" />
 </RelativeLayout>

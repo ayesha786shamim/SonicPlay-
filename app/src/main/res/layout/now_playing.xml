@@ -78,13 +78,13 @@
             android:src="@drawable/icon_next"
             android:layout_marginLeft="25dp"
             android:background="?android:attr/selectableItemBackground" />
+
         <ImageButton
             android:id="@+id/btn_fav"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="25dp"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/heart_unfilled"
-            />
+            android:src="@drawable/heart_unfilled" />
     </LinearLayout>
 </LinearLayout>
