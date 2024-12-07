@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
@@ -23,16 +22,13 @@ import com.example.musicapplication.R;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class NowPlayingFragment extends Fragment {
 
     private MediaPlayerController mediaPlayerController;
-    private List<Song> songList;
-    private List<Song> favList = new ArrayList<>();
+    private ArrayList<Song> songList;
     private int currentSongIndex;
     private TextView songTitle, songArtist;
     private SeekBar songSeekBar;
@@ -40,7 +36,6 @@ public class NowPlayingFragment extends Fragment {
     private ImageView songImage;
     private boolean isPlaying = false;
     private Song currentSong;
-    private Gson gson;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,7 @@ public class NowPlayingFragment extends Fragment {
 
         // Retrieve the song list and the current song index passed via arguments
         if (getArguments() != null) {
-            songList = (List<Song>) getArguments().getSerializable("songList");
+            songList = (ArrayList<Song>) getArguments().getSerializable("songList");
             currentSong = (Song) getArguments().getSerializable("currentSong");
             currentSongIndex = getArguments().getInt("currentSongIndex", 0);
         }

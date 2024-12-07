@@ -20,6 +20,7 @@ import com.example.musicapplication.View.Adapter.SongAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PlaylistFragment extends Fragment {
     private RecyclerView songsRecyclerView;
     private PlaylistAdapter playlistAdapter;
     private SongAdapter songAdapter;
-    private List<String> playlists; // List of playlists
+    private ArrayList<String> playlists; // List of playlists
     private ArrayList<Song> favouriteSongs; // List of favourite songs
     private static final int REQUEST_PERMISSION = 1;
 
@@ -90,9 +91,7 @@ public class PlaylistFragment extends Fragment {
 
             // Set up the song adapter if it's not already set
             if (songAdapter == null) {
-                songAdapter = new SongAdapter(favouriteSongs, (song, songList) -> {
-                    // Handle song click
-                });
+                songAdapter = new SongAdapter(favouriteSongs, this::onSongClicked);
                 songsRecyclerView.setAdapter(songAdapter);
             } else {
                 songAdapter.updateSongs(favouriteSongs); // Update the adapter with new songs
@@ -100,5 +99,25 @@ public class PlaylistFragment extends Fragment {
 
             songsRecyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    // Handle click events on a song
+    public void onSongClicked(Song song, List<Song> songList) {
+        // Create a new fragment to show the song in a "Now Playing" screen
+        NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
+        Bundle bundle = new Bundle();
+
+        // Pass the clicked song and the song list to the NowPlayingFragment
+        bundle.putSerializable("songList", (Serializable) songList);
+        bundle.putSerializable("currentSong", song);
+        bundle.putInt("currentSongIndex", songList.indexOf(song));
+        nowPlayingFragment.setArguments(bundle);
+
+
+        // Replace the current fragment with the NowPlayingFragment
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
+                .addToBackStack(null)
+                .commit();
     }
 }

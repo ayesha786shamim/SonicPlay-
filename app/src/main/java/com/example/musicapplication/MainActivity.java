@@ -1,6 +1,8 @@
 package com.example.musicapplication;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,8 +59,61 @@ public class MainActivity extends AppCompatActivity {
         themeSelection.setOnClickListener(v -> showThemeSelectionDialog());
     }
 
-    // Show the theme selection dialog
     private void showThemeSelectionDialog() {
+        // Inflate the custom layout with radio buttons
+        View dialogView = getLayoutInflater().inflate(R.layout.theme_selection, null);
+
+        // Add a black border programmatically
+        GradientDrawable borderDrawable = new GradientDrawable();
+        borderDrawable.setStroke(9, Color.BLACK); // Black border with 4dp width
+        //borderDrawable.setCornerRadius(5); // Rounded corners for the border
+
+        // Set the border as the foreground of the dialogView
+        dialogView.setForeground(borderDrawable);
+
+        // Create the dialog without title and buttons
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        // Automatically apply the selected theme when a radio button is clicked
+        RadioGroup radioGroup = dialogView.findViewById(R.id.theme_radio_group);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            int themeToApply = R.style.AppTheme_MorningDew; // Default theme
+
+            // Determine the selected theme
+            if (checkedId == R.id.radio_MorningDew) {
+                themeToApply = R.style.AppTheme_MorningDew;
+            } else if (checkedId == R.id.radio_StoneSlate) {
+                themeToApply = R.style.AppTheme_StoneSlate;
+            } else if (checkedId == R.id.radio_CrimsonEclipse) {
+                themeToApply = R.style.AppTheme_CrimsonEclipse;
+            } else if (checkedId == R.id.radio_VelvetNoir) {
+                themeToApply = R.style.AppTheme_VelvetNoir;
+            } else if (checkedId == R.id.radio_CedarWood) {
+                themeToApply = R.style.AppTheme_CedarWood;
+            }
+
+            // Save the selected theme in SharedPreferences
+            SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("SelectedTheme", themeToApply);
+            editor.apply();
+
+            // Reload the activity to apply the new theme
+            recreate();
+
+            // Dismiss the dialog
+            dialog.dismiss();
+        });
+
+        // Show the dialog
+        dialog.show();
+
+    }
+
+    // Show the theme selection dialog
+   /* private void showThemeSelectionDialog() {
         // Inflate the custom layout with radio buttons
         View dialogView = getLayoutInflater().inflate(R.layout.theme_selection, null);
 
@@ -102,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Show the dialog
         dialog.show();
-    }
+    }*/
 
 
     // Helper method to load a fragment
