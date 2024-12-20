@@ -174,7 +174,8 @@ public class NowPlayingFragment extends Fragment {
         super.onResume();
         if (getActivity() instanceof MainActivity) {
             MainActivity activity = (MainActivity) getActivity();
-            activity.setNavigationBarVisibility(false);  // HIDE navigation bar
+            activity.setNavigationBarVisibility(false);
+            activity.setMiniPlayerVisibility(false);
         }
     }
     private void setupFavButton() {

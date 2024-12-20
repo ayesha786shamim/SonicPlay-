@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Add a black border programmatically
         GradientDrawable borderDrawable = new GradientDrawable();
-        borderDrawable.setStroke(9, Color.BLACK); // Black border with 4dp width
-        //borderDrawable.setCornerRadius(5); // Rounded corners for the border
+        borderDrawable.setStroke(10, Color.BLACK); // Black border with 4dp width
+        borderDrawable.setCornerRadius(2); // Rounded corners for the border
 
         // Set the border as the foreground of the dialogView
         dialogView.setForeground(borderDrawable);
@@ -162,15 +162,28 @@ public class MainActivity extends AppCompatActivity {
 
     // Helper method to load a fragment
     private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit();
+        // Add fragment to the back stack only if it is not the default fragment
+        /*getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
-                .commit();
+                .addToBackStack(null) // Add the transaction to the back stack
+                .commit();*/
+
     }
 
     // Set navigation bar visibility and ensure interaction
     public void setNavigationBarVisibility(boolean isVisible) {
         if (navigationBar != null) {
             navigationBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        }
+    }
+    // Set mini player visibility and ensure interaction
+    public void setMiniPlayerVisibility(boolean isVisible) {
+        View miniPlayer = findViewById(R.id.mini_player);
+        if (miniPlayer != null) {
+            miniPlayer.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -182,10 +195,26 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof NowPlayingFragment) {
             loadFragment(new SongListFragment()); // Switch back to SongListFragment
             setNavigationBarVisibility(true);
+            setMiniPlayerVisibility(true);
         } else {
             super.onBackPressed();
         }
     }
+    /*public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (currentFragment instanceof NowPlayingFragment) {
+            setNavigationBarVisibility(true);
+            setMiniPlayerVisibility(true);
+        }
+
+        // Check if there are fragments in the back stack
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack(); // Navigate to the previous fragment in the stack
+        } else {
+            super.onBackPressed(); // Close the app if there are no fragments left
+        }
+    }*/
 }
 
 
