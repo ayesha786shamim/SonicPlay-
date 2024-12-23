@@ -1,6 +1,8 @@
 package com.example.musicapplication.View.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
+import com.example.musicapplication.Controller.MusicService;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
@@ -24,7 +27,7 @@ import java.util.ArrayList;
 
 
 public class NowPlayingFragment extends Fragment {
-
+    private MediaPlayer mediaPlayer;
     protected MediaPlayerController mediaPlayerController;
     protected ArrayList<Song> songList;
     protected int currentSongIndex;
@@ -52,7 +55,7 @@ public class NowPlayingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.now_playing, container, false);
-
+        Intent intent = new Intent(getContext(), MusicService.class);
         // Initialize UI components
         initializeUIComponents(view);
 
@@ -68,7 +71,9 @@ public class NowPlayingFragment extends Fragment {
             playPauseButton.setImageResource(R.drawable.icon_pause);
         }
 
-
+        intent.putExtra("songTitle", currentSong.getTitle());
+        intent.putExtra("songArtist", currentSong.getArtist());
+        getContext().startService(intent);
         // Set up button click listeners
         setupPlayPauseButton();
         setupNextButton();
