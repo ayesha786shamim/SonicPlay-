@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
@@ -32,6 +33,7 @@ public class SongListFragment extends Fragment {
     private RecyclerView recyclerView;
     private SongAdapter songAdapter;
     private ArrayList<Song> songList;
+    protected MediaPlayerController mediaPlayerController;
 
     private static final int REQUEST_PERMISSION = 1;
 
@@ -129,17 +131,15 @@ public class SongListFragment extends Fragment {
         // Create a new fragment to show the song in a "Now Playing" screen
         NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
         Bundle bundle = new Bundle();
-
         // Pass the clicked song and the song list to the NowPlayingFragment
         bundle.putSerializable("songList", (Serializable) songList);
         bundle.putSerializable("currentSong", song);
         bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
-
         // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, nowPlayingFragment) // Replace the fragment
+                .replace(R.id.fragment_container, nowPlayingFragment)
                 .addToBackStack(null)
                 .commit();
     }

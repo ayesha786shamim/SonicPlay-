@@ -9,24 +9,16 @@
     android:elevation="4dp"
     android:layout_gravity="bottom">
 
-    <!-- Song Info -->
-    <LinearLayout
+    <!-- Song Title (Left) -->
+    <TextView
+        android:id="@+id/song_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
-        <!-- Song Title -->
-        <TextView
-            android:id="@+id/song_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?attr/android:textColor"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:singleLine="true"/>
-
-    </LinearLayout>
+        android:textColor="?attr/android:textColor"
+        android:textSize="15sp"
+        android:gravity="start"
+        android:layout_weight="1"
+        android:singleLine="true"/>
 
     <!-- Play/Pause Button -->
     <ImageButton
@@ -36,7 +28,7 @@
         android:src="@drawable/play"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="Play/Pause"
-        android:layout_marginStart="12dp" />
+        android:layout_marginStart="8dp" />
 
     <!-- Next Button -->
     <ImageButton
@@ -47,4 +39,5 @@
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="Next"
         android:layout_marginStart="8dp" />
+
 </LinearLayout>

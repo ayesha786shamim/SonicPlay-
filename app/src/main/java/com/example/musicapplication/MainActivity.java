@@ -8,11 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import androidx.fragment.app.Fragment;
-
 import com.example.musicapplication.View.Fragment.SongListFragment;
 import com.example.musicapplication.View.Fragment.PlaylistFragment;
 import com.example.musicapplication.View.Fragment.AlbumFragment;
@@ -165,12 +164,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit();
-        // Add fragment to the back stack only if it is not the default fragment
-        /*getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null) // Add the transaction to the back stack
-                .commit();*/
-
     }
 
     // Set navigation bar visibility and ensure interaction
@@ -187,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Ensure navigation bar is visible after closing NowPlayingFragment
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -195,26 +187,12 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof NowPlayingFragment) {
             loadFragment(new SongListFragment()); // Switch back to SongListFragment
             setNavigationBarVisibility(true);
-            setMiniPlayerVisibility(true);
+            NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) currentFragment;
+            nowPlayingFragment.openMiniPlayer(); // Call the method from NowPlayingFragment
         } else {
             super.onBackPressed();
         }
     }
-    /*public void onBackPressed() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-
-        if (currentFragment instanceof NowPlayingFragment) {
-            setNavigationBarVisibility(true);
-            setMiniPlayerVisibility(true);
-        }
-
-        // Check if there are fragments in the back stack
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack(); // Navigate to the previous fragment in the stack
-        } else {
-            super.onBackPressed(); // Close the app if there are no fragments left
-        }
-    }*/
 }
 
 

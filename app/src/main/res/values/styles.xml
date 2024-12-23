@@ -21,7 +21,7 @@
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">@color/Pearl_Blue</item>
-        <item name="android:textColor">@color/Grey </item>
+        <item name="android:textColor">#B4BCBC </item>
     </style>
 
     <style name="AppTheme.VelvetNoir" parent="@style/Theme.MusicApplication">

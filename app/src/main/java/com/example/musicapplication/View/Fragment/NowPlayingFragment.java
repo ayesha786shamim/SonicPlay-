@@ -8,18 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.util.Log;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
@@ -27,15 +25,15 @@ import java.util.ArrayList;
 
 public class NowPlayingFragment extends Fragment {
 
-    private MediaPlayerController mediaPlayerController;
-    private ArrayList<Song> songList;
-    private int currentSongIndex;
-    private TextView songTitle, songArtist;
-    private SeekBar songSeekBar;
-    private ImageButton playPauseButton, nextButton, previousButton, favButton;
+    protected MediaPlayerController mediaPlayerController;
+    protected ArrayList<Song> songList;
+    protected int currentSongIndex;
+    protected TextView songTitle, songArtist;
+    protected SeekBar songSeekBar;
+    protected ImageButton playPauseButton, nextButton, previousButton, favButton;
     private ImageView songImage;
-    private boolean isPlaying = false;
-    private Song currentSong;
+    protected boolean isPlaying = false;
+    protected Song currentSong;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,13 +56,18 @@ public class NowPlayingFragment extends Fragment {
         // Initialize UI components
         initializeUIComponents(view);
 
-        // If a song list is available, initialize the MediaPlayerController and play the song
+        // If a song list is available and currentSong is not null, stop the currently playing song
         if (songList != null && currentSong != null) {
+            // If a song is already playing, stop it before playing the new song
+            if (mediaPlayerController != null) {
+                mediaPlayerController.stopSong();  // Stop the current song if any
+            }
             mediaPlayerController = new MediaPlayerController(requireContext(), songList, currentSongIndex, songSeekBar);
             mediaPlayerController.playSong(currentSong);
             isPlaying = true;
             playPauseButton.setImageResource(R.drawable.icon_pause);
         }
+
 
         // Set up button click listeners
         setupPlayPauseButton();
@@ -105,7 +108,7 @@ public class NowPlayingFragment extends Fragment {
         }
     }
 
-    private void setupPlayPauseButton() {
+    protected void setupPlayPauseButton() {
         playPauseButton.setOnClickListener(v -> {
             if (isPlaying) {
                 mediaPlayerController.pauseSong();
@@ -118,7 +121,7 @@ public class NowPlayingFragment extends Fragment {
         });
     }
 
-    private void setupNextButton() {
+    protected void setupNextButton() {
         nextButton.setOnClickListener(v -> {
             if (songList != null && !songList.isEmpty()) {
                 currentSongIndex = (currentSongIndex + 1) % songList.size();
@@ -162,14 +165,6 @@ public class NowPlayingFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayerController != null) {
-            mediaPlayerController.release();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (getActivity() instanceof MainActivity) {
@@ -178,6 +173,12 @@ public class NowPlayingFragment extends Fragment {
             activity.setMiniPlayerVisibility(false);
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private void setupFavButton() {
         favButton.setOnClickListener(v -> {
             // Get the list of favorites from SharedPreferences
@@ -225,5 +226,29 @@ public class NowPlayingFragment extends Fragment {
         editor.apply();
     }
 
+    public void openMiniPlayer() {
+        // Get the current playback position from MediaPlayerController
+        int currentPosition = mediaPlayerController.getCurrentPosition();
+
+        MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
+        // Pass the song list, current song, index, and current position as arguments
+        Bundle args = new Bundle();
+        args.putSerializable("songList", songList);
+        args.putSerializable("currentSong", currentSong);
+        args.putInt("currentSongIndex", currentSongIndex);
+        args.putInt("currentPosition", currentPosition); // Pass current position
+        miniPlayerFragment.setArguments(args);
+
+        // Attach the existing mediaPlayerController to the MiniPlayerFragment
+        miniPlayerFragment.setMediaPlayerController(mediaPlayerController);
+
+        // Replace the mini-player container
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mini_player, miniPlayerFragment)
+                .commit();
+
+        // Debug log to confirm fragment is replaced
+        Log.d("NowPlayingFragment", "MiniPlayerFragment opened");
+    }
 
 }

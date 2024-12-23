@@ -51,7 +51,6 @@ public class MediaPlayerController {
             mediaPlayer.start();
             isPlaying = true;
 
-
             updateSeekBar();
 
         } catch (Exception e) {
@@ -80,7 +79,6 @@ public class MediaPlayerController {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             isPlaying = true;
-
 
             updateSeekBar();
         }
@@ -169,5 +167,19 @@ public class MediaPlayerController {
             // Automatically play the next song
             playNextSong();
         });
+    }
+
+    // New method to get the current position of the song
+    public int getCurrentPosition() {
+        if (mediaPlayer != null && isPlaying) {
+            return mediaPlayer.getCurrentPosition(); // Return current position in milliseconds
+        }
+        return 0; // Return 0 if the media player is not playing or null
+    }
+    // Seek to a specific position in the song
+    public void seekTo(int position) {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(position);
+        }
     }
 }
