@@ -8,6 +8,7 @@
 
     <!-- Permission to write to external storage (only for Android 9 and below) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +19,10 @@
         android:theme="@style/AppTheme.MorningDew"
         tools:targetApi="31">
 
-
+        <service
+            android:name=".Controller.MusicService"
+            android:enabled="true"
+            android:exported="false" />
         <!-- MainActivity with Splash Theme -->
         <activity
             android:name=".MainActivity"
