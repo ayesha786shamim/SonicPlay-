@@ -10,7 +10,10 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.musicapplication.View.Fragment.SongListFragment;
 import com.example.musicapplication.View.Fragment.PlaylistFragment;
 import com.example.musicapplication.View.Fragment.AlbumFragment;
@@ -57,6 +60,24 @@ public class MainActivity extends AppCompatActivity {
         themeSelection.setOnClickListener(v -> showThemeSelectionDialog());
     }
 
+    private void loadFragment(Fragment fragment) {
+        // Create a new FragmentTransaction
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Set custom animations
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        //transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out);
+
+        // Replace the current fragment with the new fragment
+        transaction.replace(R.id.fragment_container, fragment);
+
+        // Add the transaction to the back stack so the user can navigate back
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
     private void showThemeSelectionDialog() {
         // Inflate the custom layout with radio buttons
         View dialogView = getLayoutInflater().inflate(R.layout.theme_selection, null);
@@ -77,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         // Set the radio group
         RadioGroup radioGroup = dialogView.findViewById(R.id.theme_radio_group);
 
-       // Get the currently applied theme from SharedPreferences
+        // Get the currently applied theme from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         int currentTheme = prefs.getInt("SelectedTheme", R.style.AppTheme_MorningDew); // Default to MorningDew if not set
 
@@ -127,12 +148,54 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     }
-    // Helper method to load a fragment
-    private void loadFragment(Fragment fragment) {
-            getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit();
-    }
+
+    // Show the theme selection dialog
+   /* private void showThemeSelectionDialog() {
+        // Inflate the custom layout with radio buttons
+        View dialogView = getLayoutInflater().inflate(R.layout.theme_selection, null);
+
+        // Set up the radio group
+        RadioGroup radioGroup = dialogView.findViewById(R.id.theme_radio_group);
+
+        // Create a dialog without title and buttons
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        // Automatically apply the selected theme when a radio button is clicked
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            int themeToApply = R.style.AppTheme_MorningDew; // Default theme
+
+            // Use if-else to determine the selected theme
+            if (checkedId == R.id.radio_MorningDew) {
+                themeToApply = R.style.AppTheme_MorningDew;
+            } else if (checkedId == R.id.radio_StoneSlate) {
+                themeToApply = R.style.AppTheme_StoneSlate;
+            } else if (checkedId == R.id.radio_CrimsonEclipse) {
+                themeToApply = R.style.AppTheme_CrimsonEclipse;
+            } else if (checkedId == R.id.radio_VelvetNoir) {
+                themeToApply = R.style.AppTheme_VelvetNoir;
+            }else if (checkedId == R.id.radio_CedarWood) {
+                themeToApply = R.style.AppTheme_CedarWood;
+            }
+
+            // Save the selected theme in SharedPreferences
+            SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("SelectedTheme", themeToApply);
+            editor.apply();
+
+            // Reload the activity to apply the new theme
+            recreate();
+
+            // Dismiss the dialog
+            dialog.dismiss();
+        });
+
+        // Show the dialog
+        dialog.show();
+    }*/
+
 
     // Set navigation bar visibility and ensure interaction
     public void setNavigationBarVisibility(boolean isVisible) {
