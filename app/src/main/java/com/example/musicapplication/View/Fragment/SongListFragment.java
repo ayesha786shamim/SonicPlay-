@@ -128,10 +128,26 @@ public class SongListFragment extends Fragment {
 
     // Handle click events on a song
     public void onSongClicked(Song song, List<Song> songList) {
+        Log.d("SongListFragment", "OnSongClicked");
+
+        // Check if mediaPlayerController is initialized
+        //mediaPlayerController.stopSong();
+        if (mediaPlayerController == null) {
+            mediaPlayerController.stopSong();
+            Log.e("SongListFragment", "MediaPlayerController is null");
+        } else {
+            Log.d("SongListFragment", "MediaPlayerController is initialized");
+        }
+        // Stop the current song in the mini player (if playing)
+        if (mediaPlayerController != null) {
+            mediaPlayerController.stopSong();  // Stop the song before transitioning
+            mediaPlayerController.checkAndReleasePlayer();  // Release any resources if needed
+            Log.d("SongListFragment", "Song stopped and player released.");
+        }
+
         // Create a new fragment to show the song in a "Now Playing" screen
         NowPlayingFragment nowPlayingFragment = new NowPlayingFragment();
         Bundle bundle = new Bundle();
-        // Pass the clicked song and the song list to the NowPlayingFragment
         bundle.putSerializable("songList", (Serializable) songList);
         bundle.putSerializable("currentSong", song);
         bundle.putInt("currentSongIndex", songList.indexOf(song));
@@ -143,8 +159,6 @@ public class SongListFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
-
-
     // Handle the result of the permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

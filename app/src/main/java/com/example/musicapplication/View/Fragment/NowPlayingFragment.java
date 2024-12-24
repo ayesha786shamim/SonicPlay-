@@ -63,7 +63,8 @@ public class NowPlayingFragment extends Fragment {
         if (songList != null && currentSong != null) {
             // If a song is already playing, stop it before playing the new song
             if (mediaPlayerController != null) {
-                mediaPlayerController.stopSong();  // Stop the current song if any
+                mediaPlayerController.stopSong();
+                mediaPlayerController.release();
             }
             mediaPlayerController = new MediaPlayerController(requireContext(), songList, currentSongIndex, songSeekBar);
             mediaPlayerController.playSong(currentSong);
@@ -161,17 +162,22 @@ public class NowPlayingFragment extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public void onStop() {
         super.onStop();
         if (mediaPlayerController != null) {
+            Log.d("NowPlayingFragment", "Stopping the current song...");
             mediaPlayerController.stopSong();
         }
-    }
+    }*/
 
     @Override
     public void onResume() {
         super.onResume();
+        if (mediaPlayerController != null) {
+            Log.d("NowPlayingFragment", "Resume the current song...");
+            mediaPlayerController.resumeSong();
+        }
         if (getActivity() instanceof MainActivity) {
             MainActivity activity = (MainActivity) getActivity();
             activity.setNavigationBarVisibility(false);
@@ -182,6 +188,9 @@ public class NowPlayingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mediaPlayerController != null) {
+            mediaPlayerController.release();
+        }
     }
 
     private void setupFavButton() {
@@ -234,6 +243,7 @@ public class NowPlayingFragment extends Fragment {
     public void openMiniPlayer() {
         // Get the current playback position from MediaPlayerController
         int currentPosition = mediaPlayerController.getCurrentPosition();
+        boolean isPlayingState = isPlaying;
 
         MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
         // Pass the song list, current song, index, and current position as arguments
@@ -241,7 +251,8 @@ public class NowPlayingFragment extends Fragment {
         args.putSerializable("songList", songList);
         args.putSerializable("currentSong", currentSong);
         args.putInt("currentSongIndex", currentSongIndex);
-        args.putInt("currentPosition", currentPosition); // Pass current position
+        args.putInt("currentPosition", currentPosition);
+        args.putBoolean("isPlaying", isPlayingState);// Pass current position
         miniPlayerFragment.setArguments(args);
 
         // Attach the existing mediaPlayerController to the MiniPlayerFragment

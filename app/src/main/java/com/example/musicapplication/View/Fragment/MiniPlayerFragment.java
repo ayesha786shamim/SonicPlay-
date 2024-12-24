@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.musicapplication.Controller.MediaPlayerController;
@@ -27,11 +26,18 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             songList = (ArrayList<Song>) getArguments().getSerializable("songList");
             currentSongIndex = getArguments().getInt("currentSongIndex", 0);
 
+
             if (songList != null && !songList.isEmpty()) {
                 currentSong = songList.get(currentSongIndex);
                 Log.d("MiniPlayerFragment", "Song passed: " + currentSong.getTitle());  // Debug statement
             } else {
                 Log.e("MiniPlayerFragment", "Song list is empty or null");
+            }
+
+            // Retrieve current position passed from NowPlayingFragment
+            int currentPosition = getArguments().getInt("currentPosition", 0);
+            if (mediaPlayerController != null) {
+                mediaPlayerController.seekTo(currentPosition);  // Seek to the position
             }
         }
     }

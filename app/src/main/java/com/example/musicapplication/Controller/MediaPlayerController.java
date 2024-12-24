@@ -4,10 +4,9 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.SeekBar;
-
 import com.example.musicapplication.Model.Song;
-
 import java.util.List;
 
 public class MediaPlayerController {
@@ -40,8 +39,7 @@ public class MediaPlayerController {
 
         try {
             if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.reset();
+                mediaPlayer.wait();
             }
 
             // Set the data source and prepare
@@ -95,6 +93,7 @@ public class MediaPlayerController {
     // Stop the current song
     public void stopSong() {
         if (mediaPlayer != null) {
+            Log.d("MediaPlayerController", "Stopping the current song...");
             mediaPlayer.stop();
             mediaPlayer.reset();
             isPlaying = false;
@@ -172,14 +171,27 @@ public class MediaPlayerController {
     // New method to get the current position of the song
     public int getCurrentPosition() {
         if (mediaPlayer != null && isPlaying) {
-            return mediaPlayer.getCurrentPosition(); // Return current position in milliseconds
+            return mediaPlayer.getCurrentPosition();
         }
-        return 0; // Return 0 if the media player is not playing or null
+        return 0;
     }
+
     // Seek to a specific position in the song
     public void seekTo(int position) {
         if (mediaPlayer != null) {
             mediaPlayer.seekTo(position);
         }
+    }
+
+    public void checkAndReleasePlayer() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            Log.d("MediaPlayerController", "Stopping the current song...");
+            mediaPlayer.stop();  // Stop the current song
+            Log.d("MediaPlayerController", "Resetting the media player...");
+            mediaPlayer.reset(); // Reset the media player state
+        }
+        Log.d("MediaPlayerController", "Releasing the media player...");
+        mediaPlayer.release();  // Release the media player to free resources
+        mediaPlayer = null;
     }
 }
