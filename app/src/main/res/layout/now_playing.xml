@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:singleLine="true"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <!-- Song Artist -->
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
+        android:singleLine="true"
         android:textColor="#B3FFFFFF"
         android:textSize="16sp" />
 
@@ -90,6 +92,7 @@
             android:tint="#FFFFFF" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,28 +103,29 @@
 
         <ImageButton
             android:id="@+id/btn_shuffle"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="54dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/shuffle_icon"
-            android:tint="#FFFFFF" />
+            android:src="@drawable/shuffle_icon" />
+
         <ImageButton
             android:id="@+id/btn_fav"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginLeft="50dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/heart_unfilled"
             android:tint="#1DB954" />
+
         <ImageButton
-            android:id="@+id/btn_fav"
+            android:id="@+id/btn_repeat"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="32dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/icon_repeat"
-            android:tint="#FFFFFF" />
+            android:layout_marginLeft="90dp"
+            android:src="@drawable/icon_repeat" />
+
     </LinearLayout>
 
 </LinearLayout>

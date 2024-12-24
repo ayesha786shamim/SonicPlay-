@@ -1,4 +1,5 @@
 package com.example.musicapplication.View.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,19 +13,22 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.util.Log;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.Controller.MusicService;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 public class NowPlayingFragment extends Fragment {
     private MediaPlayer mediaPlayer;
@@ -37,6 +41,9 @@ public class NowPlayingFragment extends Fragment {
     private ImageView songImage;
     protected boolean isPlaying = false;
     protected Song currentSong;
+    private ImageButton shuffleButton, repeatButton;
+    private boolean isShuffleEnabled = false; // Flag to track shuffle state
+    private boolean isRepeatEnabled = false; // Flag to track repeat state
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,7 @@ public class NowPlayingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.now_playing, container, false);
         Intent intent = new Intent(getContext(), MusicService.class);
+
         // Initialize UI components
         initializeUIComponents(view);
 
@@ -76,12 +84,15 @@ public class NowPlayingFragment extends Fragment {
         intent.putExtra("songTitle", currentSong.getTitle());
         intent.putExtra("songArtist", currentSong.getArtist());
         getContext().startService(intent);
+
         // Set up button click listeners
         setupPlayPauseButton();
         setupNextButton();
         setupPreviousButton();
         setupFavButton();
         updateSongDetails();
+        setupShuffleButton();
+        setupRepeatButton();
 
         return view;
     }
@@ -95,6 +106,8 @@ public class NowPlayingFragment extends Fragment {
         previousButton = view.findViewById(R.id.btn_previous);
         songImage = view.findViewById(R.id.song_image);
         favButton = view.findViewById(R.id.btn_fav);
+        shuffleButton = view.findViewById(R.id.btn_shuffle);
+        repeatButton = view.findViewById(R.id.btn_repeat);
     }
 
     private void updateSongDetails() {
@@ -131,27 +144,82 @@ public class NowPlayingFragment extends Fragment {
     protected void setupNextButton() {
         nextButton.setOnClickListener(v -> {
             if (songList != null && !songList.isEmpty()) {
-                currentSongIndex = (currentSongIndex + 1) % songList.size();
-                currentSong = songList.get(currentSongIndex);
-                mediaPlayerController.playNextSong();
-                updateSongDetails();
+                if (isRepeatEnabled) {
+                    // Repeat the current song when repeat is enabled
+                    mediaPlayerController.playSong(currentSong);
+                } else if (isShuffleEnabled) {
+                    // Shuffle the songs
+                    currentSongIndex = (int) (Math.random() * songList.size()); // Randomly pick a song
+                    currentSong = songList.get(currentSongIndex);
+                    mediaPlayerController.playSong(currentSong); // Play the shuffled song
+                } else {
+                    // Play next song in the list
+                    currentSongIndex = (currentSongIndex + 1) % songList.size();
+                    currentSong = songList.get(currentSongIndex);
+                    mediaPlayerController.playNextSong(); // Play next song
+                }
+                updateSongDetails(); // Update song details on UI
                 playPauseButton.setImageResource(R.drawable.icon_pause);
                 isPlaying = true;
             }
         });
     }
 
-    private void setupPreviousButton() {
+    protected void setupPreviousButton() {
         previousButton.setOnClickListener(v -> {
             if (songList != null && !songList.isEmpty()) {
-                currentSongIndex = (currentSongIndex - 1 + songList.size()) % songList.size();
-                currentSong = songList.get(currentSongIndex);
-                mediaPlayerController.playPreviousSong();
-                updateSongDetails();
+                if (isRepeatEnabled) {
+                    // Repeat the current song when repeat is enabled
+                    mediaPlayerController.playSong(currentSong);
+                } else if (isShuffleEnabled) {
+                    // Shuffle the songs
+                    currentSongIndex = (int) (Math.random() * songList.size()); // Randomly pick a song
+                    currentSong = songList.get(currentSongIndex);
+                    mediaPlayerController.playSong(currentSong); // Play the shuffled song
+                } else {
+                    // Play previous song in the list
+                    currentSongIndex = (currentSongIndex - 1 + songList.size()) % songList.size();
+                    currentSong = songList.get(currentSongIndex);
+                    mediaPlayerController.playPreviousSong(); // Play previous song
+                }
+                updateSongDetails(); // Update song details on UI
                 playPauseButton.setImageResource(R.drawable.icon_pause);
                 isPlaying = true;
             }
         });
+    }
+
+    private void setupShuffleButton() {
+        shuffleButton.setOnClickListener(v -> {
+            isShuffleEnabled = !isShuffleEnabled;
+            if (isShuffleEnabled) {
+                shuffleButton.setImageResource(R.drawable.shuffle_active);
+                shuffleSongs();
+            } else {
+                shuffleButton.setImageResource(R.drawable.shuffle_icon);
+            }
+        });
+    }
+
+    private void setupRepeatButton() {
+        repeatButton.setOnClickListener(v -> {
+            isRepeatEnabled = !isRepeatEnabled;
+            if (isRepeatEnabled) {
+                repeatButton.setImageResource(R.drawable.repeat_active);
+            } else {
+                repeatButton.setImageResource(R.drawable.icon_repeat);
+            }
+        });
+    }
+
+    private void shuffleSongs() {
+        if (songList != null) {
+            java.util.Collections.shuffle(songList); // Shuffle the song list
+            currentSongIndex = 0;
+            currentSong = songList.get(currentSongIndex);
+            mediaPlayerController.playSong(currentSong);
+            updateSongDetails();
+        }
     }
 
     @Override
@@ -176,7 +244,6 @@ public class NowPlayingFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (mediaPlayerController != null) {
-            Log.d("NowPlayingFragment", "Resume the current song...");
             mediaPlayerController.resumeSong();
         }
         if (getActivity() instanceof MainActivity) {
@@ -234,30 +301,30 @@ public class NowPlayingFragment extends Fragment {
     }
 
     public void openMiniPlayer() {
-        // Get the current playback position from MediaPlayerController
-        int currentPosition = mediaPlayerController.getCurrentPosition();
-        boolean isPlayingState = isPlaying;
+            // Get the current playback position from MediaPlayerController
+            int currentPosition = mediaPlayerController.getCurrentPosition();
+            boolean isPlayingState = isPlaying;
 
-        MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
-        // Pass the song list, current song, index, and current position as arguments
-        Bundle args = new Bundle();
-        args.putSerializable("songList", songList);
-        args.putSerializable("currentSong", currentSong);
-        args.putInt("currentSongIndex", currentSongIndex);
-        args.putInt("currentPosition", currentPosition);
-        args.putBoolean("isPlaying", isPlayingState);// Pass current position
-        miniPlayerFragment.setArguments(args);
+            MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
+            // Pass the song list, current song, index, and current position as arguments
+            Bundle args = new Bundle();
+            args.putSerializable("songList", songList);
+            args.putSerializable("currentSong", currentSong);
+            args.putInt("currentSongIndex", currentSongIndex);
+            args.putInt("currentPosition", currentPosition);
+            args.putBoolean("isPlaying", isPlayingState);// Pass current position
+            miniPlayerFragment.setArguments(args);
 
-        // Attach the existing mediaPlayerController to the MiniPlayerFragment
-        miniPlayerFragment.setMediaPlayerController(mediaPlayerController);
+            // Attach the existing mediaPlayerController to the MiniPlayerFragment
+            miniPlayerFragment.setMediaPlayerController(mediaPlayerController);
 
-        // Replace the mini-player container
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mini_player_container, miniPlayerFragment)
-                .commit();
+            // Replace the mini-player container
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mini_player_container, miniPlayerFragment)
+                    .commit();
 
-        // Debug log to confirm fragment is replaced
-        Log.d("NowPlayingFragment", "MiniPlayerFragment opened");
-    }
+            // Debug log to confirm fragment is replaced
+            Log.d("NowPlayingFragment", "MiniPlayerFragment opened");
+        }
 
 }

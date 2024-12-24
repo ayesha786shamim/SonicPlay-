@@ -25,7 +25,6 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             songList = (ArrayList<Song>) getArguments().getSerializable("songList");
             currentSongIndex = getArguments().getInt("currentSongIndex", 0);
 
-
             if (songList != null && !songList.isEmpty()) {
                 currentSong = songList.get(currentSongIndex);
                 Log.d("MiniPlayerFragment", "Song passed: " + currentSong.getTitle());  // Debug statement
@@ -51,6 +50,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
         if (view != null) {
             view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); // Force LTR direction
         }
+
         // Initialize components specific to MiniPlayer
         initializeMiniPlayerUIComponents(view);
 
@@ -93,7 +93,6 @@ public class MiniPlayerFragment extends NowPlayingFragment {
         }
     }
 
-
     public void onDestroy() {
         super.onDestroy();
         if (mediaPlayerController != null) {
@@ -120,6 +119,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             activity.setMiniPlayerVisibility(true);
         }
     }
+
     public void stopCurrentSong() {
         if (mediaPlayerController != null && isPlaying) {
             mediaPlayerController.stopSong();
@@ -127,6 +127,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             playPauseButton.setImageResource(R.drawable.icon_play); // Update the play/pause button icon
         }
     }
+
     public void setMediaPlayerController(MediaPlayerController controller) {
         if (mediaPlayerController == null) {
             this.mediaPlayerController = controller;
@@ -136,17 +137,34 @@ public class MiniPlayerFragment extends NowPlayingFragment {
         }
     }
 
+    // Setup Play/Pause button functionality
     protected void setupPlayPauseButton() {
         playPauseButton.setOnClickListener(v -> {
             if (isPlaying) {
                 mediaPlayerController.pauseSong();
-                playPauseButton.setImageResource(R.drawable.icon_play);
+                playPauseButton.setImageResource(R.drawable.icon_play);  // Change to play icon
             } else {
                 mediaPlayerController.resumeSong();
-                playPauseButton.setImageResource(R.drawable.icon_pause);
+                playPauseButton.setImageResource(R.drawable.icon_pause); // Change to pause icon
             }
             isPlaying = !isPlaying;
         });
     }
-}
 
+    // Setup Next Button functionality
+    protected void setupNextButton() {
+        nextButton.setOnClickListener(v -> {
+            if (songList != null && !songList.isEmpty()) {
+                // Play next song
+                currentSongIndex = (currentSongIndex + 1) % songList.size();
+                currentSong = songList.get(currentSongIndex);
+                mediaPlayerController.playSong(currentSong); // Play the next song
+
+                // Update the UI to reflect the new song details
+                updateMiniPlayerUI();
+                isPlaying = true; // Mark the song as playing
+                playPauseButton.setImageResource(R.drawable.icon_pause); // Change to pause icon
+            }
+        });
+    }
+}

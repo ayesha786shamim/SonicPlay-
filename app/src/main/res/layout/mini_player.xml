@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="?attr/customWindowBackground"
-    android:padding="12dp"
+    android:padding="13dp"
     android:gravity="center_vertical"
     android:elevation="5dp"
     android:layout_gravity="bottom">
@@ -14,12 +14,11 @@
         android:id="@+id/song_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="?attr/android:textColor"
-        android:textSize="15sp"
-        android:gravity="start"
+        android:layout_marginStart="15dp"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColor="?attr/android:textColor"
+        android:textSize="17sp" />
 
     <!-- Play/Pause Button -->
     <ImageButton

@@ -65,7 +65,6 @@ public class MediaPlayerController {
     }
 
 
-
     // Play the next song
     public void playNextSong() {
         if (songList == null || songList.isEmpty()) return;
@@ -101,17 +100,17 @@ public class MediaPlayerController {
     }
 
 
-   // Stop the current song if the mediaPlayer is playing
-   public void stopSong() {
-       if (mediaPlayer != null && isPlaying) {
-           Log.d("MediaPlayerController", "Stopping the current song...");
-           mediaPlayer.stop();
-           //mediaPlayer.reset();
-           isPlaying = false;
-       } else {
-           Log.e("MediaPlayerController", "MediaPlayer is either null or not in a playing state.");
-       }
-   }
+    // Stop the current song if the mediaPlayer is playing
+    public void stopSong() {
+        if (mediaPlayer != null && isPlaying) {
+            Log.d("MediaPlayerController", "Stopping the current song...");
+            mediaPlayer.stop();
+            //mediaPlayer.reset();
+            isPlaying = false;
+        } else {
+            Log.e("MediaPlayerController", "MediaPlayer is either null or not in a playing state.");
+        }
+    }
 
     // Release the MediaPlayer when no longer needed
     public void release() {
@@ -220,3 +219,4 @@ public class MediaPlayerController {
         }
     }
 }
+

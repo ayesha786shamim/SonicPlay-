@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentFragment instanceof NowPlayingFragment) {
             setNavigationBarVisibility(true);
+            //setMiniPlayerVisibility(true);
             loadFragment(new SongListFragment()); // Switch back to SongListFragment
             //setNavigationBarVisibility(true);
             NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) currentFragment;
