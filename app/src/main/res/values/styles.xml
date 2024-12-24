@@ -24,13 +24,12 @@
         <item name="android:textColor">#B4BCBC </item>
     </style>
 
-    <style name="AppTheme.VelvetNoir" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.MidnightGold" parent="@style/Theme.MusicApplication">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
-        <item name="customWindowBackground">#2C2C54</item>
+        <item name="customWindowBackground">#0A2647</item>
         <item name="android:textColor">#F8EFBA </item>
     </style>
-
 
     <style name="AppTheme.CrimsonEclipse" parent="@style/Theme.MusicApplication">
         <item name="android:windowBackground">@drawable/splashscreen</item>
@@ -39,22 +38,18 @@
         <item name="android:textColor">#EFBECA</item>
     </style>
 
-
-    <style name="AppTheme.StoneSlate" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.CrimsonStone" parent="@style/Theme.MusicApplication">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">#B4BCBC</item>
         <item name="android:textColor">#900338</item>
     </style>
 
-
-
-
-    <style name="AppTheme.CedarWood" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.WizardingWorld" parent="@style/Theme.MusicApplication">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
-        <item name="customWindowBackground">#5B3D44</item>
-        <item name="android:textColor">#F0D9B5 </item>
+        <item name="customWindowBackground">#4E4B3C</item>
+        <item name="android:textColor">#B19500</item>
     </style>
 
 </resources>

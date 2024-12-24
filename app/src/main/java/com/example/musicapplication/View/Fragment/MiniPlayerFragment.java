@@ -91,7 +91,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
         }
     }
 
-    @Override
+
     public void onDestroy() {
         super.onDestroy();
         if (mediaPlayerController != null) {
@@ -109,6 +109,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             mediaPlayerController.release();
         }
     }
+
     public void onResume() {
         super.onResume();
         if (getActivity() instanceof MainActivity) {

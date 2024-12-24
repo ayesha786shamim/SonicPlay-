@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#0A2647"
+    android:background="?attr/customWindowBackground"
     android:fontFamily="?android:attr/fontFamily">
 
     <!-- Album Art with Card Effect -->
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#CCBDBD"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        android:textColor="#B3FFFFFF"
+        android:textColor="#CCBDBD"
         android:textSize="16sp" />
 
 
@@ -70,7 +70,7 @@
             android:layout_marginEnd="24dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_previous"
-            android:tint="#FFFFFF" />
+            android:tint="#CCBDBD" />
 
         <ImageButton
             android:id="@+id/btn_play_pause"
@@ -87,7 +87,7 @@
             android:layout_marginStart="24dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_next"
-            android:tint="#FFFFFF" />
+            android:tint="#CCBDBD" />
 
         <ImageButton
             android:id="@+id/btn_fav"

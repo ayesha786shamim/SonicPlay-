@@ -18,15 +18,15 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="?attr/android:textColor"
-            android:text="Morning Dew" />
+            android:text="  Morning Dew" />
 
         <RadioButton
-            android:id="@+id/radio_VelvetNoir"
+            android:id="@+id/radio_MidnightGold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="?attr/android:textColor"
-            android:text="Velvet Noir" />
+            android:text="  Midnight Gold" />
 
         <RadioButton
             android:id="@+id/radio_CrimsonEclipse"
@@ -34,23 +34,23 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="?attr/android:textColor"
-            android:text="Crimson Eclipse" />
+            android:text="  Crimson Eclipse" />
 
         <RadioButton
-            android:id="@+id/radio_StoneSlate"
+            android:id="@+id/radio_CrimsonStone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="?attr/android:textColor"
-            android:text="Stone Slate" />
+            android:text="  Crimson Stone" />
 
         <RadioButton
-            android:id="@+id/radio_CedarWood"
+            android:id="@+id/radio_WizardingWorld"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="?attr/android:textColor"
-            android:text="Cedar Wood" />
+            android:text="  Wizarding World" />
 
     </RadioGroup>
 

@@ -186,15 +186,6 @@ public class NowPlayingFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayerController != null) {
-            mediaPlayerController.stopSong();
-            //mediaPlayerController.release();
-        }
-    }
-
     private void setupFavButton() {
         favButton.setOnClickListener(v -> {
             // Get the list of favorites from SharedPreferences

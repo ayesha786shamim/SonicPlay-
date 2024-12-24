@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 import androidx.fragment.app.Fragment;
 import com.example.musicapplication.View.Fragment.SongListFragment;
 import com.example.musicapplication.View.Fragment.PlaylistFragment;
@@ -75,26 +74,44 @@ public class MainActivity extends AppCompatActivity {
                 .setView(dialogView)
                 .create();
 
-        // Automatically apply the selected theme when a radio button is clicked
+        // Set the radio group
         RadioGroup radioGroup = dialogView.findViewById(R.id.theme_radio_group);
+
+       // Get the currently applied theme from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        int currentTheme = prefs.getInt("SelectedTheme", R.style.AppTheme_MorningDew); // Default to MorningDew if not set
+
+        // Pre-select the radio button based on the currently applied theme
+        if (currentTheme == R.style.AppTheme_MorningDew) {
+            radioGroup.check(R.id.radio_MorningDew);
+        } else if (currentTheme == R.style.AppTheme_CrimsonStone) {
+            radioGroup.check(R.id.radio_CrimsonStone);
+        } else if (currentTheme == R.style.AppTheme_CrimsonEclipse) {
+            radioGroup.check(R.id.radio_CrimsonEclipse);
+        } else if (currentTheme == R.style.AppTheme_MidnightGold) {
+            radioGroup.check(R.id.radio_MidnightGold);
+        } else if (currentTheme == R.style.AppTheme_WizardingWorld) {
+            radioGroup.check(R.id.radio_WizardingWorld);
+        }
+
+        // Automatically apply the selected theme when a radio button is clicked
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             int themeToApply = R.style.AppTheme_MorningDew; // Default theme
 
             // Determine the selected theme
             if (checkedId == R.id.radio_MorningDew) {
                 themeToApply = R.style.AppTheme_MorningDew;
-            } else if (checkedId == R.id.radio_StoneSlate) {
-                themeToApply = R.style.AppTheme_StoneSlate;
+            } else if (checkedId == R.id.radio_CrimsonStone) {
+                themeToApply = R.style.AppTheme_CrimsonStone;
             } else if (checkedId == R.id.radio_CrimsonEclipse) {
                 themeToApply = R.style.AppTheme_CrimsonEclipse;
-            } else if (checkedId == R.id.radio_VelvetNoir) {
-                themeToApply = R.style.AppTheme_VelvetNoir;
-            } else if (checkedId == R.id.radio_CedarWood) {
-                themeToApply = R.style.AppTheme_CedarWood;
+            } else if (checkedId == R.id.radio_MidnightGold) {
+                themeToApply = R.style.AppTheme_MidnightGold;
+            } else if (checkedId == R.id.radio_WizardingWorld) {
+                themeToApply = R.style.AppTheme_WizardingWorld;
             }
 
             // Save the selected theme in SharedPreferences
-            SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("SelectedTheme", themeToApply);
             editor.apply();
@@ -110,55 +127,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     }
-
-    // Show the theme selection dialog
-   /* private void showThemeSelectionDialog() {
-        // Inflate the custom layout with radio buttons
-        View dialogView = getLayoutInflater().inflate(R.layout.theme_selection, null);
-
-        // Set up the radio group
-        RadioGroup radioGroup = dialogView.findViewById(R.id.theme_radio_group);
-
-        // Create a dialog without title and buttons
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .create();
-
-        // Automatically apply the selected theme when a radio button is clicked
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            int themeToApply = R.style.AppTheme_MorningDew; // Default theme
-
-            // Use if-else to determine the selected theme
-            if (checkedId == R.id.radio_MorningDew) {
-                themeToApply = R.style.AppTheme_MorningDew;
-            } else if (checkedId == R.id.radio_StoneSlate) {
-                themeToApply = R.style.AppTheme_StoneSlate;
-            } else if (checkedId == R.id.radio_CrimsonEclipse) {
-                themeToApply = R.style.AppTheme_CrimsonEclipse;
-            } else if (checkedId == R.id.radio_VelvetNoir) {
-                themeToApply = R.style.AppTheme_VelvetNoir;
-            }else if (checkedId == R.id.radio_CedarWood) {
-                themeToApply = R.style.AppTheme_CedarWood;
-            }
-
-            // Save the selected theme in SharedPreferences
-            SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("SelectedTheme", themeToApply);
-            editor.apply();
-
-            // Reload the activity to apply the new theme
-            recreate();
-
-            // Dismiss the dialog
-            dialog.dismiss();
-        });
-
-        // Show the dialog
-        dialog.show();
-    }*/
-
-
     // Helper method to load a fragment
     private void loadFragment(Fragment fragment) {
             getSupportFragmentManager().beginTransaction()
