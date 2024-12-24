@@ -38,8 +38,16 @@ public class MediaPlayerController {
         if (song == null || song.getUri() == null || song.getUri().isEmpty()) return;
 
         try {
+            checkAndReleasePlayer();
+            // If mediaPlayer is null, reinitialize it
+            if (mediaPlayer == null) {
+                mediaPlayer = new MediaPlayer();
+                setupMediaPlayerListener(); // Reattach listeners
+            }
+
             if (mediaPlayer.isPlaying()) {
-                mediaPlayer.wait();
+                mediaPlayer.stop();
+                mediaPlayer.reset();
             }
 
             // Set the data source and prepare
@@ -55,6 +63,8 @@ public class MediaPlayerController {
             e.printStackTrace();
         }
     }
+
+
 
     // Play the next song
     public void playNextSong() {
@@ -90,23 +100,33 @@ public class MediaPlayerController {
         }
     }
 
-    // Stop the current song
-    public void stopSong() {
-        if (mediaPlayer != null) {
-            Log.d("MediaPlayerController", "Stopping the current song...");
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            isPlaying = false;
-        }
-    }
+
+   // Stop the current song if the mediaPlayer is playing
+   public void stopSong() {
+       if (mediaPlayer != null && isPlaying) {
+           Log.d("MediaPlayerController", "Stopping the current song...");
+           mediaPlayer.stop();
+           //mediaPlayer.reset();
+           isPlaying = false;
+       } else {
+           Log.e("MediaPlayerController", "MediaPlayer is either null or not in a playing state.");
+       }
+   }
 
     // Release the MediaPlayer when no longer needed
     public void release() {
         if (mediaPlayer != null) {
+            mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            Log.d("MediaPlayerController", "MediaPlayer released.");
+        } else {
+            Log.e("MediaPlayerController", "MediaPlayer was already released or never initialized.");
         }
+        seekBarHandler.removeCallbacksAndMessages(null); // Stop any ongoing handler updates
+        isPlaying = false;
     }
+
 
     // Update SeekBar position while the song is playing
     private void updateSeekBar() {
@@ -183,15 +203,20 @@ public class MediaPlayerController {
         }
     }
 
+    private boolean isSwitchingFragments = false;
+
     public void checkAndReleasePlayer() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            Log.d("MediaPlayerController", "Stopping the current song...");
-            mediaPlayer.stop();  // Stop the current song
-            Log.d("MediaPlayerController", "Resetting the media player...");
-            mediaPlayer.reset(); // Reset the media player state
+        // Only release the player if we're not switching between NowPlaying and MiniPlayer
+        if (mediaPlayer != null && !isSwitchingFragments) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            Log.d("MediaPlayerController", "MediaPlayer released successfully.");
+        } else {
+            Log.e("MediaPlayerController", "MediaPlayer was already null or not initialized.");
         }
-        Log.d("MediaPlayerController", "Releasing the media player...");
-        mediaPlayer.release();  // Release the media player to free resources
-        mediaPlayer = null;
     }
 }

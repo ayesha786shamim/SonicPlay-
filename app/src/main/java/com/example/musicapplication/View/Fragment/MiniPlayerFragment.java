@@ -11,7 +11,6 @@ import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.R;
 import com.example.musicapplication.Model.Song;
-
 import java.util.ArrayList;
 
 public class MiniPlayerFragment extends NowPlayingFragment {
@@ -37,7 +36,9 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             // Retrieve current position passed from NowPlayingFragment
             int currentPosition = getArguments().getInt("currentPosition", 0);
             if (mediaPlayerController != null) {
-                mediaPlayerController.seekTo(currentPosition);  // Seek to the position
+                mediaPlayerController.seekTo(currentPosition);
+            } else {
+                Log.e("MiniPlayerFragment", "MediaPlayerController is null during onCreate");
             }
         }
     }
@@ -73,28 +74,41 @@ public class MiniPlayerFragment extends NowPlayingFragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (mediaPlayerController != null && isPlaying) {
+            mediaPlayerController.pauseSong();
+            isPlaying = false;
+        }
     }
 
     private void updateMiniPlayerUI() {
         if (currentSong != null) {
             songTitle.setText(currentSong.getTitle());
-            mediaPlayerController.playSong(currentSong);
-            isPlaying = true;
-            playPauseButton.setImageResource(R.drawable.icon_pause);
-        } else {
-            playPauseButton.setImageResource(R.drawable.icon_play);  // Change to Play icon if paused
+            if (isPlaying) {
+                playPauseButton.setImageResource(R.drawable.icon_pause);
+            } else {
+                playPauseButton.setImageResource(R.drawable.icon_play);
+            }
         }
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mediaPlayerController != null) {
+            mediaPlayerController.stopSong();
+            mediaPlayerController.release();
+        }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mediaPlayerController != null) {
+            Log.d("NowPlayingFragment", "Stopping the current song...");
+            mediaPlayerController.stopSong();
+            mediaPlayerController.release();
+        }
+    }
     public void onResume() {
         super.onResume();
         if (getActivity() instanceof MainActivity) {
@@ -103,10 +117,33 @@ public class MiniPlayerFragment extends NowPlayingFragment {
             activity.setMiniPlayerVisibility(true);
         }
     }
-
+    public void stopCurrentSong() {
+        if (mediaPlayerController != null && isPlaying) {
+            mediaPlayerController.stopSong();
+            isPlaying = false; // Update the playing state
+            playPauseButton.setImageResource(R.drawable.icon_play); // Update the play/pause button icon
+        }
+    }
     public void setMediaPlayerController(MediaPlayerController controller) {
-        this.mediaPlayerController = controller;
+        if (mediaPlayerController == null) {
+            this.mediaPlayerController = controller;
+            Log.d("MiniPlayerFragment", "MediaPlayerController set successfully");
+        } else {
+            Log.d("MiniPlayerFragment", "MediaPlayerController was already initialized");
+        }
     }
 
+    protected void setupPlayPauseButton() {
+        playPauseButton.setOnClickListener(v -> {
+            if (isPlaying) {
+                mediaPlayerController.pauseSong();
+                playPauseButton.setImageResource(R.drawable.icon_play);
+            } else {
+                mediaPlayerController.resumeSong();
+                playPauseButton.setImageResource(R.drawable.icon_pause);
+            }
+            isPlaying = !isPlaying;
+        });
+    }
 }
 

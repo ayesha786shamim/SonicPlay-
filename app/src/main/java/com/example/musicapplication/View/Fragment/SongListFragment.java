@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
@@ -34,6 +33,7 @@ public class SongListFragment extends Fragment {
     private SongAdapter songAdapter;
     private ArrayList<Song> songList;
     protected MediaPlayerController mediaPlayerController;
+    private MiniPlayerFragment miniPlayerFragment;
 
     private static final int REQUEST_PERMISSION = 1;
 
@@ -130,18 +130,16 @@ public class SongListFragment extends Fragment {
     public void onSongClicked(Song song, List<Song> songList) {
         Log.d("SongListFragment", "OnSongClicked");
 
-        // Check if mediaPlayerController is initialized
-        //mediaPlayerController.stopSong();
-        if (mediaPlayerController == null) {
-            mediaPlayerController.stopSong();
-            Log.e("SongListFragment", "MediaPlayerController is null");
-        } else {
-            Log.d("SongListFragment", "MediaPlayerController is initialized");
+        // Stop the current song in the mini player (if visible)
+        if (miniPlayerFragment != null) {
+            Log.d("MiniPlayerFragment", "Stopping song in Mini Player...");
+            miniPlayerFragment.stopCurrentSong(); // Stop the current song in MiniPlayerFragment
         }
-        // Stop the current song in the mini player (if playing)
+        // Stop the current song in the mediaPlayerController
         if (mediaPlayerController != null) {
+            Log.d("SongListFragment", "Stopping current song...");
             mediaPlayerController.stopSong();  // Stop the song before transitioning
-            mediaPlayerController.checkAndReleasePlayer();  // Release any resources if needed
+            mediaPlayerController.release();  // Release any resources if needed
             Log.d("SongListFragment", "Song stopped and player released.");
         }
 
@@ -159,6 +157,7 @@ public class SongListFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
     // Handle the result of the permission request
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

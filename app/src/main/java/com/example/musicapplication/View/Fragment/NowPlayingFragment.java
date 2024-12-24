@@ -67,6 +67,7 @@ public class NowPlayingFragment extends Fragment {
                 mediaPlayerController.release();
             }
             mediaPlayerController = new MediaPlayerController(requireContext(), songList, currentSongIndex, songSeekBar);
+            mediaPlayerController.stopSong();
             mediaPlayerController.playSong(currentSong);
             isPlaying = true;
             playPauseButton.setImageResource(R.drawable.icon_pause);
@@ -162,14 +163,14 @@ public class NowPlayingFragment extends Fragment {
         }
     }
 
-   /* @Override
+    @Override
     public void onStop() {
         super.onStop();
         if (mediaPlayerController != null) {
             Log.d("NowPlayingFragment", "Stopping the current song...");
             mediaPlayerController.stopSong();
         }
-    }*/
+    }
 
     @Override
     public void onResume() {
@@ -189,7 +190,8 @@ public class NowPlayingFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (mediaPlayerController != null) {
-            mediaPlayerController.release();
+            mediaPlayerController.stopSong();
+            //mediaPlayerController.release();
         }
     }
 
