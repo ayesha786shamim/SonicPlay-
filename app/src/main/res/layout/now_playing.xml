@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="?attr/customWindowBackground"
+    android:background="#0A2647"
     android:fontFamily="?android:attr/fontFamily">
 
     <!-- Album Art with Card Effect -->
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:textColor="#CCBDBD"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        android:textColor="#CCBDBD"
+        android:textColor="#B3FFFFFF"
         android:textSize="16sp" />
 
 
@@ -70,7 +70,7 @@
             android:layout_marginEnd="24dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_previous"
-            android:tint="#CCBDBD" />
+            android:tint="#FFFFFF" />
 
         <ImageButton
             android:id="@+id/btn_play_pause"
@@ -87,8 +87,25 @@
             android:layout_marginStart="24dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_next"
-            android:tint="#CCBDBD" />
+            android:tint="#FFFFFF" />
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_shuffle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/shuffle_icon"
+            android:tint="#FFFFFF" />
         <ImageButton
             android:id="@+id/btn_fav"
             android:layout_width="24dp"
@@ -97,6 +114,14 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/heart_unfilled"
             android:tint="#1DB954" />
+        <ImageButton
+            android:id="@+id/btn_fav"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="32dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icon_repeat"
+            android:tint="#FFFFFF" />
     </LinearLayout>
 
 </LinearLayout>
