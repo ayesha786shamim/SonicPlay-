@@ -1,90 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Now Playing.xml-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="?attr/customWindowBackground"
+    android:background="#0A2647"
     android:fontFamily="?android:attr/fontFamily">
 
-    <!-- Album Art -->
-    <ImageView
-        android:id="@+id/song_image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/baseline_music_note_24" />
+    <!-- Album Art with Card Effect -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="10dp">
+
+        <ImageView
+            android:id="@+id/song_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_music_note_24" />
+    </androidx.cardview.widget.CardView>
 
     <!-- Song Title -->
     <TextView
         android:id="@+id/song_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:padding="16dp"
-        android:textColor="?attr/android:textColor"
-        android:textSize="20sp"
-        android:gravity="center" />
+        android:layout_marginHorizontal="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!-- Song Artist -->
     <TextView
         android:id="@+id/song_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_marginTop="5dp"
-        android:textColor="?attr/android:textColor"
-        android:textSize="16sp"
-        android:gravity="center" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#B3FFFFFF"
+        android:textSize="16sp" />
+
 
     <!-- SeekBar for Playback Progress -->
     <SeekBar
         android:id="@+id/song_seek_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_margin="16dp" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="25dp"
+        android:progressTint="#1DB954"
+        android:thumbTint="#1DB954" />
 
-    <!-- Controls for Playback (Play, Pause, Previous, Next) -->
+    <!-- Controls for Playback -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_previous"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_previous"
-            android:layout_marginRight="25dp"
-            android:background="?android:attr/selectableItemBackground" />
+            android:tint="#FFFFFF" />
 
         <ImageButton
             android:id="@+id/btn_play_pause"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/circle_background"
             android:src="@drawable/icon_play"
-            android:background="?android:attr/selectableItemBackground" />
+            android:padding="8dp"/>
 
         <ImageButton
             android:id="@+id/btn_next"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/icon_next"
-            android:layout_marginLeft="25dp"
-            android:background="?android:attr/selectableItemBackground" />
+            android:tint="#FFFFFF" />
 
         <ImageButton
             android:id="@+id/btn_fav"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="25dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/heart_unfilled" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="32dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/heart_unfilled"
+            android:tint="#1DB954" />
     </LinearLayout>
+
 </LinearLayout>
