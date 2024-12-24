@@ -48,7 +48,9 @@ public class MiniPlayerFragment extends NowPlayingFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Use a smaller layout for the mini player
         View view = inflater.inflate(R.layout.mini_player, container, false);
-
+        if (view != null) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); // Force LTR direction
+        }
         // Initialize components specific to MiniPlayer
         initializeMiniPlayerUIComponents(view);
 

@@ -127,6 +127,7 @@ public class SongListFragment extends Fragment {
     }
 
     // Handle click events on a song
+
     public void onSongClicked(Song song, List<Song> songList) {
         Log.d("SongListFragment", "OnSongClicked");
 

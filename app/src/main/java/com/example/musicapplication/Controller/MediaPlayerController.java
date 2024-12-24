@@ -38,7 +38,7 @@ public class MediaPlayerController {
         if (song == null || song.getUri() == null || song.getUri().isEmpty()) return;
 
         try {
-            checkAndReleasePlayer();
+            //checkAndReleasePlayer();
             // If mediaPlayer is null, reinitialize it
             if (mediaPlayer == null) {
                 mediaPlayer = new MediaPlayer();

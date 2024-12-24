@@ -6,7 +6,7 @@
     android:background="?attr/customWindowBackground"
     android:padding="12dp"
     android:gravity="center_vertical"
-    android:elevation="4dp"
+    android:elevation="5dp"
     android:layout_gravity="bottom">
 
     <!-- Song Title (Left) -->
@@ -18,6 +18,7 @@
         android:textSize="15sp"
         android:gravity="start"
         android:layout_weight="1"
+        android:ellipsize="end"
         android:singleLine="true"/>
 
     <!-- Play/Pause Button -->
@@ -26,7 +27,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/play"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="Play/Pause"
         android:layout_marginStart="8dp" />
 
@@ -36,7 +37,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/icon_next"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="Next"
         android:layout_marginStart="8dp" />
 

@@ -253,7 +253,7 @@ public class NowPlayingFragment extends Fragment {
 
         // Replace the mini-player container
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mini_player, miniPlayerFragment)
+                .replace(R.id.mini_player_container, miniPlayerFragment)
                 .commit();
 
         // Debug log to confirm fragment is replaced

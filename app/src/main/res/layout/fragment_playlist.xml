@@ -38,11 +38,4 @@
         android:layout_below="@id/playlists_title"
         android:layout_marginStart="80dp" />
 
-    <!-- Include the mini player layout -->
-    <include
-        android:id="@+id/mini_player"
-        layout="@layout/mini_player"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
 </RelativeLayout>
