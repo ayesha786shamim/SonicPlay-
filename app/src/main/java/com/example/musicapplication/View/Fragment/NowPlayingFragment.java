@@ -150,14 +150,12 @@ public class NowPlayingFragment extends Fragment {
                 } else if (isShuffleEnabled) {
                     // Shuffle the songs
                     currentSongIndex = (int) (Math.random() * songList.size()); // Randomly pick a song
-                    currentSong = songList.get(currentSongIndex);
-                    mediaPlayerController.playSong(currentSong); // Play the shuffled song
                 } else {
                     // Play next song in the list
                     currentSongIndex = (currentSongIndex + 1) % songList.size();
-                    currentSong = songList.get(currentSongIndex);
-                    mediaPlayerController.playNextSong(); // Play next song
                 }
+                currentSong = songList.get(currentSongIndex);
+                mediaPlayerController.playSong(currentSong); // Play the selected song
                 updateSongDetails(); // Update song details on UI
                 playPauseButton.setImageResource(R.drawable.icon_pause);
                 isPlaying = true;
@@ -174,20 +172,19 @@ public class NowPlayingFragment extends Fragment {
                 } else if (isShuffleEnabled) {
                     // Shuffle the songs
                     currentSongIndex = (int) (Math.random() * songList.size()); // Randomly pick a song
-                    currentSong = songList.get(currentSongIndex);
-                    mediaPlayerController.playSong(currentSong); // Play the shuffled song
                 } else {
                     // Play previous song in the list
                     currentSongIndex = (currentSongIndex - 1 + songList.size()) % songList.size();
-                    currentSong = songList.get(currentSongIndex);
-                    mediaPlayerController.playPreviousSong(); // Play previous song
                 }
+                currentSong = songList.get(currentSongIndex);
+                mediaPlayerController.playSong(currentSong); // Play the selected song
                 updateSongDetails(); // Update song details on UI
                 playPauseButton.setImageResource(R.drawable.icon_pause);
                 isPlaying = true;
             }
         });
     }
+
 
     private void setupShuffleButton() {
         shuffleButton.setOnClickListener(v -> {
@@ -212,15 +209,18 @@ public class NowPlayingFragment extends Fragment {
         });
     }
 
+    private ArrayList<Song> shuffledList;
     private void shuffleSongs() {
         if (songList != null) {
-            java.util.Collections.shuffle(songList); // Shuffle the song list
+            shuffledList = new ArrayList<>(songList); // Create a copy of the original list
+            java.util.Collections.shuffle(shuffledList); // Shuffle the copied list
             currentSongIndex = 0;
-            currentSong = songList.get(currentSongIndex);
+            currentSong = shuffledList.get(currentSongIndex); // Use the shuffled list for playback
             mediaPlayerController.playSong(currentSong);
             updateSongDetails();
         }
     }
+
 
     @Override
     public void onPause() {

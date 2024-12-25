@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the currently applied theme from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("AppPreferences", MODE_PRIVATE);
-        int currentTheme = prefs.getInt("SelectedTheme", R.style.AppTheme_MorningDew); // Default to MorningDew if not set
+        int currentTheme = prefs.getInt("SelectedTheme", R.style.AppTheme_MorningDew);
 
         // Pre-select the radio button based on the currently applied theme
         if (currentTheme == R.style.AppTheme_MorningDew) {

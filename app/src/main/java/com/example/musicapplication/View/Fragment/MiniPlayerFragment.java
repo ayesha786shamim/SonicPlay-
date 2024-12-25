@@ -53,13 +53,13 @@ public class MiniPlayerFragment extends NowPlayingFragment {
 
         // Initialize components specific to MiniPlayer
         initializeMiniPlayerUIComponents(view);
+        updateMiniPlayerUI();
 
         // Ensure the MediaPlayerController is not reinitialized
         if (mediaPlayerController != null && currentSong != null) {
-            updateMiniPlayerUI(); // Update song details like title in the mini player
+           //updateMiniPlayerUI(); // Update song details like title in the mini player
         }
 
-        // Reuse the play/pause and next button setup from NowPlayingFragment
         setupPlayPauseButton();
         setupNextButton();
 
@@ -68,7 +68,7 @@ public class MiniPlayerFragment extends NowPlayingFragment {
 
     // Initialize only the components that differ in the mini-player layout
     private void initializeMiniPlayerUIComponents(View view) {
-        songTitle = view.findViewById(R.id.song_title);  // Mini layout might only have song title
+        songTitle = view.findViewById(R.id.song_title);
         playPauseButton = view.findViewById(R.id.btn_play_pause);
         nextButton = view.findViewById(R.id.btn_next);
     }
@@ -86,9 +86,9 @@ public class MiniPlayerFragment extends NowPlayingFragment {
         if (currentSong != null) {
             songTitle.setText(currentSong.getTitle());
             if (isPlaying) {
-                playPauseButton.setImageResource(R.drawable.icon_pause);
+                playPauseButton.setImageResource(R.drawable.play);
             } else {
-                playPauseButton.setImageResource(R.drawable.icon_play);
+                playPauseButton.setImageResource(R.drawable.icon_pause);
             }
         }
     }
@@ -159,7 +159,6 @@ public class MiniPlayerFragment extends NowPlayingFragment {
                 currentSongIndex = (currentSongIndex + 1) % songList.size();
                 currentSong = songList.get(currentSongIndex);
                 mediaPlayerController.playSong(currentSong); // Play the next song
-
                 // Update the UI to reflect the new song details
                 updateMiniPlayerUI();
                 isPlaying = true; // Mark the song as playing
