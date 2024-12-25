@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Playlists"
         android:textColor="?attr/android:textColor"
-        android:layout_marginStart="250dp"
+        android:layout_marginStart="240dp"
         android:textSize="23sp"
         android:padding="11dp" />
 

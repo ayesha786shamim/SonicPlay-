@@ -127,18 +127,19 @@ public class SongListFragment extends Fragment {
     }
 
     // Handle click events on a song
-
     public void onSongClicked(Song song, List<Song> songList) {
         Log.d("SongListFragment", "OnSongClicked");
 
-        // Stop the current song in the mini player (if visible)
-        if (miniPlayerFragment != null) {
-            Log.d("MiniPlayerFragment", "Stopping song in Mini Player...");
-            miniPlayerFragment.stopCurrentSong(); // Stop the current song in MiniPlayerFragment
+        // Stop the current song in the MiniPlayerFragment (if it's visible)
+        MiniPlayerFragment miniPlayerFragment = (MiniPlayerFragment) getFragmentManager().findFragmentByTag("miniPlayerFragmentTag");
+        if (miniPlayerFragment != null && miniPlayerFragment.mediaPlayerController != null) {
+            Log.d("MiniPlayerFragment", "Stopping song in MiniPlayer...");
+            miniPlayerFragment.mediaPlayerController.stopSong();
         }
-        // Stop the current song in the mediaPlayerController
+
+        // Release the resources associated with the current song
         if (mediaPlayerController != null) {
-            Log.d("SongListFragment", "Stopping current song...");
+            Log.d("MiniPlayerFragment", "Stopping song in Mini Player...");
             mediaPlayerController.stopSong();  // Stop the song before transitioning
             mediaPlayerController.release();  // Release any resources if needed
             Log.d("SongListFragment", "Song stopped and player released.");
@@ -154,10 +155,12 @@ public class SongListFragment extends Fragment {
 
         // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, nowPlayingFragment)
                 .addToBackStack(null)
                 .commit();
     }
+
 
     // Handle the result of the permission request
     @Override

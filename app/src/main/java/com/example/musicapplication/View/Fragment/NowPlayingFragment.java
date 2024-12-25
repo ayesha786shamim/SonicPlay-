@@ -64,21 +64,28 @@ public class NowPlayingFragment extends Fragment {
         View view = inflater.inflate(R.layout.now_playing, container, false);
         Intent intent = new Intent(getContext(), MusicService.class);
 
+        Log.d("NowPlayingFragment", "NowPlayingFragment opened");
         // Initialize UI components
         initializeUIComponents(view);
 
         // If a song list is available and currentSong is not null, stop the currently playing song
-        if (songList != null && currentSong != null) {
-            // If a song is already playing, stop it before playing the new song
-            if (mediaPlayerController != null) {
-                mediaPlayerController.stopSong();
-                mediaPlayerController.release();
+        if (songList != null && currentSong != null ) {
+            if (mediaPlayerController != null && isPlaying) {
+                mediaPlayerController.pauseSong();
+                isPlaying = false;
+            }
+            else{
+                Log.d("NowPlayingFragment", "Media Player is null");
             }
             mediaPlayerController = new MediaPlayerController(requireContext(), songList, currentSongIndex, songSeekBar);
-            mediaPlayerController.stopSong();
             mediaPlayerController.playSong(currentSong);
             isPlaying = true;
             playPauseButton.setImageResource(R.drawable.icon_pause);
+            Log.d("NowPlayingFragment", "MediaPlayerController: " + mediaPlayerController);
+
+        }
+        else{
+            Log.d("NowPlayingFragment", "Song list is null");
         }
 
         intent.putExtra("songTitle", currentSong.getTitle());
@@ -235,8 +242,10 @@ public class NowPlayingFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if (mediaPlayerController != null) {
-            Log.d("NowPlayingFragment", "Stopping the current song...");
+            Log.d("NowPlayingFragment", "Releasing MediaPlayerController...");
             mediaPlayerController.stopSong();
+            mediaPlayerController.release();
+            mediaPlayerController = null; // Avoid memory leaks
         }
     }
 
@@ -301,30 +310,34 @@ public class NowPlayingFragment extends Fragment {
     }
 
     public void openMiniPlayer() {
-            // Get the current playback position from MediaPlayerController
-            int currentPosition = mediaPlayerController.getCurrentPosition();
-            boolean isPlayingState = isPlaying;
+        // Capture the current position before releasing the mediaPlayerController
+        int currentPosition = 0; // Default value in case mediaPlayerController is null
+        boolean isPlayingState = isPlaying;
 
-            MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
-            // Pass the song list, current song, index, and current position as arguments
-            Bundle args = new Bundle();
-            args.putSerializable("songList", songList);
-            args.putSerializable("currentSong", currentSong);
-            args.putInt("currentSongIndex", currentSongIndex);
-            args.putInt("currentPosition", currentPosition);
-            args.putBoolean("isPlaying", isPlayingState);// Pass current position
-            miniPlayerFragment.setArguments(args);
+        if (mediaPlayerController != null) {
+            currentPosition = mediaPlayerController.getCurrentPosition();
 
-            // Attach the existing mediaPlayerController to the MiniPlayerFragment
-            miniPlayerFragment.setMediaPlayerController(mediaPlayerController);
-
-            // Replace the mini-player container
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.mini_player_container, miniPlayerFragment)
-                    .commit();
-
-            // Debug log to confirm fragment is replaced
-            Log.d("NowPlayingFragment", "MiniPlayerFragment opened");
+            // Release the MediaPlayerController after getting the necessary data
+            mediaPlayerController.stopSong();
+            mediaPlayerController.release();
+            mediaPlayerController = null;
         }
 
+        // Prepare the mini-player fragment and pass data
+        MiniPlayerFragment miniPlayerFragment = new MiniPlayerFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("songList", songList);
+        args.putSerializable("currentSong", currentSong);
+        args.putInt("currentSongIndex", currentSongIndex);
+        args.putInt("currentPosition", currentPosition);  // Pass the captured current position
+        args.putBoolean("isPlaying", isPlayingState);
+        miniPlayerFragment.setArguments(args);
+
+        // Replace the mini-player container with the new fragment
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mini_player_container, miniPlayerFragment)
+                .commit();
+
+        Log.d("NowPlayingFragment", "MiniPlayerFragment opened");
+    }
 }

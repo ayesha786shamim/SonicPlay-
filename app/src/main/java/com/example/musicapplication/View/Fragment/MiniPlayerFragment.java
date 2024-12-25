@@ -1,39 +1,52 @@
 package com.example.musicapplication.View.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.MainActivity;
-import com.example.musicapplication.R;
 import com.example.musicapplication.Model.Song;
+import com.example.musicapplication.R;
+
 import java.util.ArrayList;
 
-public class MiniPlayerFragment extends NowPlayingFragment {
+public class MiniPlayerFragment extends Fragment {
+    protected MediaPlayerController mediaPlayerController;
+    private ArrayList<Song> songList;
+    private int currentSongIndex;
+    private Song currentSong;
+    private SeekBar songSeekBar;
+    private ImageButton playPauseButton, nextButton, previousButton;
+    private TextView songTitle;
+    private boolean isPlaying;
+    private int currentPosition;
+    private Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MiniPlayerFragment", "onCreate: MiniPlayerFragment created");
 
-        // Retrieve song list and current song details from arguments
+        // Retrieve the song list and the current song index passed via arguments
         if (getArguments() != null) {
             songList = (ArrayList<Song>) getArguments().getSerializable("songList");
+            currentSong = (Song) getArguments().getSerializable("currentSong");
             currentSongIndex = getArguments().getInt("currentSongIndex", 0);
-
-            if (songList != null && !songList.isEmpty()) {
-                currentSong = songList.get(currentSongIndex);
-                Log.d("MiniPlayerFragment", "Song passed: " + currentSong.getTitle());  // Debug statement
-            } else {
-                Log.e("MiniPlayerFragment", "Song list is empty or null");
-            }
-
-            // Retrieve current position passed from NowPlayingFragment
-            int currentPosition = getArguments().getInt("currentPosition", 0);
+            isPlaying = getArguments().getBoolean("isPlaying", false);
+            currentPosition = getArguments().getInt("currentPosition", 0);
             if (mediaPlayerController != null) {
                 mediaPlayerController.seekTo(currentPosition);
             } else {
@@ -45,54 +58,94 @@ public class MiniPlayerFragment extends NowPlayingFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Use a smaller layout for the mini player
         View view = inflater.inflate(R.layout.mini_player, container, false);
-        if (view != null) {
-            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); // Force LTR direction
-        }
 
-        // Initialize components specific to MiniPlayer
-        initializeMiniPlayerUIComponents(view);
-        updateMiniPlayerUI();
+        initializeUIComponents(view);
 
-        // Ensure the MediaPlayerController is not reinitialized
-        if (mediaPlayerController != null && currentSong != null) {
-           //updateMiniPlayerUI(); // Update song details like title in the mini player
+        Log.d("MiniPlayerFragment", "All details set");
+
+        if (mediaPlayerController == null && songList != null && currentSong != null) {
+            mediaPlayerController = new MediaPlayerController(requireContext(), songList, currentSongIndex, songSeekBar);
+            mediaPlayerController.playSong(currentSong);
+            mediaPlayerController.seekTo(currentPosition);
+            isPlaying = true;
+            playPauseButton.setImageResource(R.drawable.icon_pause);
+
         }
 
         setupPlayPauseButton();
         setupNextButton();
+        updateSongDetails();
 
         return view;
     }
 
-    // Initialize only the components that differ in the mini-player layout
-    private void initializeMiniPlayerUIComponents(View view) {
-        songTitle = view.findViewById(R.id.song_title);
+    private void initializeUIComponents(View view) {
+
+        songSeekBar = view.findViewById(R.id.song_seek_bar);
+        Log.d("MiniPlayerFragment", "Set the progress of SeekBar to the currentPosition");
+        songSeekBar.setProgress(currentPosition);
+        Log.d("MiniPlayerFragment", "Set the progress of SeekBar to the currentPosition");
+
         playPauseButton = view.findViewById(R.id.btn_play_pause);
         nextButton = view.findViewById(R.id.btn_next);
+        songTitle = view.findViewById(R.id.song_title);
+    }
+
+    private void updateSongDetails() {
+        if (currentSong != null) {
+            songTitle.setText(currentSong.getTitle());
+        }
+    }
+
+    private void setupPlayPauseButton() {
+        playPauseButton.setOnClickListener(v -> {
+            if (isPlaying) {
+                mediaPlayerController.pauseSong();
+                playPauseButton.setImageResource(R.drawable.icon_play);
+            } else {
+                mediaPlayerController.resumeSong();
+                playPauseButton.setImageResource(R.drawable.icon_pause);
+            }
+            isPlaying = !isPlaying;
+        });
+    }
+
+    private void setupNextButton() {
+        nextButton.setOnClickListener(v -> {
+            if (songList != null && !songList.isEmpty()) {
+                currentSongIndex = (currentSongIndex + 1) % songList.size();
+                currentSong = songList.get(currentSongIndex);
+                mediaPlayerController.playSong(currentSong);
+                updateSongDetails();
+                isPlaying = true;
+                playPauseButton.setImageResource(R.drawable.icon_pause);
+            }
+        });
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mediaPlayerController != null && isPlaying) {
+        if (mediaPlayerController != null) {
             mediaPlayerController.pauseSong();
             isPlaying = false;
         }
     }
 
-    private void updateMiniPlayerUI() {
-        if (currentSong != null) {
-            songTitle.setText(currentSong.getTitle());
-            if (isPlaying) {
-                playPauseButton.setImageResource(R.drawable.play);
-            } else {
-                playPauseButton.setImageResource(R.drawable.icon_pause);
-            }
+    public void onResume() {
+        super.onResume();
+        if (mediaPlayerController != null) {
+            mediaPlayerController.resumeSong();
+        }
+        if (getActivity() instanceof MainActivity) {
+            MainActivity activity = (MainActivity) getActivity();
+            activity.setNavigationBarVisibility(true);
+            activity.setMiniPlayerVisibility(true);
         }
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mediaPlayerController != null) {
@@ -105,65 +158,9 @@ public class MiniPlayerFragment extends NowPlayingFragment {
     public void onStop() {
         super.onStop();
         if (mediaPlayerController != null) {
-            Log.d("NowPlayingFragment", "Stopping the current song...");
             mediaPlayerController.stopSong();
             mediaPlayerController.release();
+
         }
-    }
-
-    public void onResume() {
-        super.onResume();
-        if (getActivity() instanceof MainActivity) {
-            MainActivity activity = (MainActivity) getActivity();
-            activity.setNavigationBarVisibility(true);
-            activity.setMiniPlayerVisibility(true);
-        }
-    }
-
-    public void stopCurrentSong() {
-        if (mediaPlayerController != null && isPlaying) {
-            mediaPlayerController.stopSong();
-            isPlaying = false; // Update the playing state
-            playPauseButton.setImageResource(R.drawable.icon_play); // Update the play/pause button icon
-        }
-    }
-
-    public void setMediaPlayerController(MediaPlayerController controller) {
-        if (mediaPlayerController == null) {
-            this.mediaPlayerController = controller;
-            Log.d("MiniPlayerFragment", "MediaPlayerController set successfully");
-        } else {
-            Log.d("MiniPlayerFragment", "MediaPlayerController was already initialized");
-        }
-    }
-
-    // Setup Play/Pause button functionality
-    protected void setupPlayPauseButton() {
-        playPauseButton.setOnClickListener(v -> {
-            if (isPlaying) {
-                mediaPlayerController.pauseSong();
-                playPauseButton.setImageResource(R.drawable.icon_play);  // Change to play icon
-            } else {
-                mediaPlayerController.resumeSong();
-                playPauseButton.setImageResource(R.drawable.icon_pause); // Change to pause icon
-            }
-            isPlaying = !isPlaying;
-        });
-    }
-
-    // Setup Next Button functionality
-    protected void setupNextButton() {
-        nextButton.setOnClickListener(v -> {
-            if (songList != null && !songList.isEmpty()) {
-                // Play next song
-                currentSongIndex = (currentSongIndex + 1) % songList.size();
-                currentSong = songList.get(currentSongIndex);
-                mediaPlayerController.playSong(currentSong); // Play the next song
-                // Update the UI to reflect the new song details
-                updateMiniPlayerUI();
-                isPlaying = true; // Mark the song as playing
-                playPauseButton.setImageResource(R.drawable.icon_pause); // Change to pause icon
-            }
-        });
     }
 }

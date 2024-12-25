@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#0A2647"
+    android:background="?attr/customWindowBackground"
     android:fontFamily="?android:attr/fontFamily">
 
     <!-- Album Art with Card Effect -->
@@ -127,5 +127,4 @@
             android:src="@drawable/icon_repeat" />
 
     </LinearLayout>
-
 </LinearLayout>

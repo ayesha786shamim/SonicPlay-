@@ -168,14 +168,21 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof NowPlayingFragment) {
             setNavigationBarVisibility(true);
             //setMiniPlayerVisibility(true);
-            loadFragment(new SongListFragment()); // Switch back to SongListFragment
-            //setNavigationBarVisibility(true);
+
+            // Use FragmentTransaction with custom animations to switch back to SongListFragment
+            getSupportFragmentManager().beginTransaction()
+                    //.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right) // Animation
+                    .replace(R.id.fragment_container, new SongListFragment())
+                    .commit();
+
             NowPlayingFragment nowPlayingFragment = (NowPlayingFragment) currentFragment;
-            nowPlayingFragment.openMiniPlayer(); // Call the method from NowPlayingFragment
+            nowPlayingFragment.openMiniPlayer();
         } else {
             super.onBackPressed();
         }
     }
+
 }
 
 

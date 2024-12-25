@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="?attr/customWindowBackground"
-    android:padding="13dp"
-    android:gravity="center_vertical"
+    android:padding="1dp"
     android:elevation="5dp"
     android:layout_gravity="bottom">
+    <!-- Horizontal Separator -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
 
-    <!-- Song Title (Left) -->
-    <TextView
-        android:id="@+id/song_title"
+    <!-- SeekBar for Playback Progress (Placed above) -->
+    <SeekBar
+        android:id="@+id/song_seek_bar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:textColor="?attr/android:textColor"
-        android:textSize="17sp" />
+        android:layout_height="0dp" />
 
-    <!-- Play/Pause Button -->
-    <ImageButton
-        android:id="@+id/btn_play_pause"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/play"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Play/Pause"
-        android:layout_marginStart="8dp" />
+    <!-- LinearLayout for Song Title and Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="0dp"
+        android:paddingBottom="8dp">
 
-    <!-- Next Button -->
-    <ImageButton
-        android:id="@+id/btn_next"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/icon_next"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Next"
-        android:layout_marginStart="8dp" />
+        <!-- Song Title (Left) -->
+        <TextView
+            android:id="@+id/song_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:textColor="?attr/android:textColor"
+            android:textSize="17sp"
+            android:ellipsize="end" />
 
+        <!-- Play/Pause Button -->
+        <ImageButton
+            android:id="@+id/btn_play_pause"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/play"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Play/Pause"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical"
+            android:tint="?attr/android:textColor"/>
+
+        <!-- Next Button -->
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_next"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Next"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center_vertical"
+            android:tint="?attr/android:textColor"/>
+
+    </LinearLayout>
 </LinearLayout>
