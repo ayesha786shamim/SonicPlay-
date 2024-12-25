@@ -17,35 +17,35 @@
     </style>
 
     <!-- Themes Selection-->
-    <style name="AppTheme.MorningDew" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.MorningDew" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">@color/Pearl_Blue</item>
         <item name="android:textColor">#B4BCBC </item>
     </style>
 
-    <style name="AppTheme.MidnightGold" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.MidnightGold" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">#0A2647</item>
         <item name="android:textColor">#F8EFBA </item>
     </style>
 
-    <style name="AppTheme.CrimsonEclipse" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.CrimsonEclipse" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">#3E0303</item>
         <item name="android:textColor">#EFBECA</item>
     </style>
 
-    <style name="AppTheme.CrimsonStone" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.CrimsonStone" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">#B4BCBC</item>
         <item name="android:textColor">#900338</item>
     </style>
 
-    <style name="AppTheme.WizardingWorld" parent="@style/Theme.MusicApplication">
+    <style name="AppTheme.WizardingWorld" parent="@style/AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:fontFamily">@font/poppins</item>
         <item name="customWindowBackground">#4E4B3C</item>
