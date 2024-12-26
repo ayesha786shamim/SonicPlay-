@@ -157,7 +157,7 @@ public class SongListFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, nowPlayingFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit();
     }
 

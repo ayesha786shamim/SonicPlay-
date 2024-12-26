@@ -194,7 +194,7 @@ public class ArtistFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) //Animation
                 .replace(R.id.fragment_container, nowPlayingFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit();
     }
 }

@@ -38,8 +38,6 @@ public class MediaPlayerController {
         if (song == null || song.getUri() == null || song.getUri().isEmpty()) return;
 
         try {
-            checkAndReleasePlayer();
-
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
                 mediaPlayer.reset();

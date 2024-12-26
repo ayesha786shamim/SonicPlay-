@@ -113,12 +113,11 @@ public class PlaylistFragment extends Fragment {
         bundle.putInt("currentSongIndex", songList.indexOf(song));
         nowPlayingFragment.setArguments(bundle);
 
-
         // Replace the current fragment with the NowPlayingFragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out) //Animation
                 .replace(R.id.fragment_container, nowPlayingFragment)
-                .addToBackStack(null)
+                //.addToBackStack(null)
                 .commit();
     }
 }

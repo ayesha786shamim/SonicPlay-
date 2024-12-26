@@ -13,18 +13,15 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.util.Log;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.example.musicapplication.Controller.MediaPlayerController;
 import com.example.musicapplication.Controller.MusicService;
 import com.example.musicapplication.MainActivity;
 import com.example.musicapplication.Model.Song;
 import com.example.musicapplication.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
