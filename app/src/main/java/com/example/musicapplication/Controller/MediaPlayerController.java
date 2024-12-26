@@ -197,25 +197,5 @@ public class MediaPlayerController {
             mediaPlayer.seekTo(position);
         }
     }
-
-    private boolean isSwitchingFragments = false;
-
-    public void checkAndReleasePlayer() {
-        // Only release the player if we're not switching between NowPlaying and MiniPlayer
-        if (mediaPlayer != null && !isSwitchingFragments) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
-            Log.d("MediaPlayerController", "MediaPlayer released successfully.");
-        } else {
-            Log.e("MediaPlayerController", "MediaPlayer was already null or not initialized.");
-        }
-    }
-    public boolean isSongFinished() {
-        return mediaPlayer != null && !mediaPlayer.isPlaying();  // Check if the song is not playing
-    }
 }
 
